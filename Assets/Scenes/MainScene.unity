@@ -839,7 +839,7 @@ MonoBehaviour:
   m_text: Level 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -949,7 +949,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -113.3, y: 53.799988}
+  m_AnchoredPosition: {x: -113.30005, y: 53.80005}
   m_SizeDelta: {x: 181.28552, y: 81.693146}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &483575746
@@ -1227,7 +1227,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 55
 --- !u!114 &537030181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2175,7 +2175,7 @@ MonoBehaviour:
   m_text: 'Gold: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2528,6 +2528,7 @@ GameObject:
   - component: {fileID: 2014962500}
   - component: {fileID: 2014962501}
   - component: {fileID: 2014962502}
+  - component: {fileID: 2014962503}
   m_Layer: 0
   m_Name: _GameManager
   m_TagString: Untagged
@@ -2580,6 +2581,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bea80e5b9e4ce484c872dedab7624302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state:
+    Level: 1
+    Stage: 1
+    Gold: 0
+    CurrentBackground: 0
+  m_MaxStage: 5
   m_LevelText: {fileID: 416100486}
   m_StageText: {fileID: 2101729412}
   m_GoldText: {fileID: 1868439668}
@@ -2602,14 +2609,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1598024f193fa0409a49a239e3f75eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_VillagerAttackLastTime: []
-  m_SquireAttackLastTime: []
-  m_RangerAttackLastTime: []
-  m_KnightAttackLastTime: []
-  m_VillagerCost: 10
-  m_SquireCost: 100
-  m_RangerCost: 200
-  m_KnightCost: 500
+  state:
+    Villagers: []
+    Squires: []
+    Rangers: []
+    Knights: []
+    VillagerCost: 10
+    SquireCost: 100
+    RangerCost: 200
+    KnightCost: 500
   m_VillagerAmountText: {fileID: 38493845}
   m_SquireAmountText: {fileID: 1951016566}
   m_RangerAmountText: {fileID: 775350743}
@@ -2628,6 +2636,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f6a20b64a4479b4d8d0d4ef9d697a88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2014962503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2014962497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cac39b547a171044b017df720f9e65d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2024500762
@@ -2820,7 +2840,7 @@ MonoBehaviour:
   m_text: Stage 1/5
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

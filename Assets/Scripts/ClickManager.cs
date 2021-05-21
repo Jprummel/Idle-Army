@@ -1,85 +1,118 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Sirenix.OdinInspector;
+using System;
 
+[Serializable]
 public class ClickManager : MonoBehaviour
 {
+    #region Properties
+    [SerializeField,HideInInspector]
+    private ClickerState state = new ClickerState();
+
     //Auto clickers
-    public List<float> m_VillagerAttackLastTime = new List<float>();
-    public List<float> m_SquireAttackLastTime = new List<float>();
-    public List<float> m_RangerAttackLastTime = new List<float>();
-    public List<float> m_KnightAttackLastTime = new List<float>();
+    [ShowInInspector] public Dictionary<string, List<AutoClicker>> m_AutoClickers = new Dictionary<string, List<AutoClicker>>();
+
+    [ShowInInspector]private List<AutoClicker> m_Villagers
+    {
+        get { return this.state.Villagers; }
+        set { this.state.Villagers = value; }
+    }
+    [ShowInInspector] private List<AutoClicker> m_Squires
+    {
+        get { return this.state.Squires; }
+        set { this.state.Squires = value; }
+    }
+    [ShowInInspector] private List<AutoClicker> m_Rangers
+    {
+        get { return this.state.Rangers; }
+        set { this.state.Rangers = value; }
+    }
+    [ShowInInspector] private List<AutoClicker> m_Knights
+    {
+        get { return this.state.Knights; }
+        set { this.state.Knights = value; }
+    }
 
     //Auto Clicker Costs
-    [SerializeField] private int m_VillagerCost;
-    [SerializeField] private int m_SquireCost;
-    [SerializeField] private int m_RangerCost;
-    [SerializeField] private int m_KnightCost;
+    [TabGroup("Unit Costs")] [ShowInInspector] private int m_VillagerCost
+    {
+        get { return this.state.VillagerCost; }
+        set { this.state.VillagerCost = value; }
+    }
+    [TabGroup("Unit Costs")] [ShowInInspector] private int m_SquireCost
+    {
+        get { return this.state.SquireCost; }
+        set { this.state.SquireCost = value; }
+    }
+    [TabGroup("Unit Costs")] [ShowInInspector] private int m_RangerCost
+    {
+        get { return this.state.RangerCost; }
+        set { this.state.RangerCost = value; }
+    }
+    [TabGroup("Unit Costs")] [ShowInInspector] private int m_KnightCost
+    {
+        get { return this.state.KnightCost; }
+        set { this.state.KnightCost = value; }
+    }
 
     //Auto Clicker UI
-    [SerializeField] private TextMeshProUGUI m_VillagerAmountText;
-    [SerializeField] private TextMeshProUGUI m_SquireAmountText;
-    [SerializeField] private TextMeshProUGUI m_RangerAmountText;
-    [SerializeField] private TextMeshProUGUI m_KnightAmountText;
-    [SerializeField] private TextMeshProUGUI m_VillagerCostText;
-    [SerializeField] private TextMeshProUGUI m_SquireCostText;
-    [SerializeField] private TextMeshProUGUI m_RangerCostText;
-    [SerializeField] private TextMeshProUGUI m_KnightCostText;
+    [TabGroup("Unit Amount UI")] [SerializeField] private TextMeshProUGUI m_VillagerAmountText;
+    [TabGroup("Unit Amount UI")] [SerializeField] private TextMeshProUGUI m_SquireAmountText;
+    [TabGroup("Unit Amount UI")] [SerializeField] private TextMeshProUGUI m_RangerAmountText;
+    [TabGroup("Unit Amount UI")] [SerializeField] private TextMeshProUGUI m_KnightAmountText;
+    [TabGroup("Unit Cost UI")] [SerializeField] private TextMeshProUGUI m_VillagerCostText;
+    [TabGroup("Unit Cost UI")] [SerializeField] private TextMeshProUGUI m_SquireCostText;
+    [TabGroup("Unit Cost UI")] [SerializeField] private TextMeshProUGUI m_RangerCostText;
+    [TabGroup("Unit Cost UI")] [SerializeField] private TextMeshProUGUI m_KnightCostText;
+    #endregion
 
+    private void Awake()
+    {
+        GameManager.s_OnResetGame += ResetClickers;
+        LoadState();
+    }
 
     private void Update()
-    {
-        //Villager Attack
-        for (int i = 0; i < m_VillagerAttackLastTime.Count; i++)
+    {        
+        for (int i = 0; i < m_Villagers.Count; i++)
         {
-            if (Time.time - m_VillagerAttackLastTime[i] >= 1.0f)
-            {
-                m_VillagerAttackLastTime[i] = Time.time; //Sets last time of click to current time
-                EnemyManager.s_Instance.CurrentEnemy.Damage(DamageManager.s_Instance.GetVillagerDamage());
-            }
+            m_Villagers[i].Attack();
         }
-
-        //Squire Attack
-        for (int i = 0; i < m_SquireAttackLastTime.Count; i++)
+        for (int i = 0; i < m_Squires.Count; i++)
         {
-            if (Time.time - m_SquireAttackLastTime[i] >= 1.0f)
-            {
-                m_SquireAttackLastTime[i] = Time.time; //Sets last time of click to current time
-                EnemyManager.s_Instance.CurrentEnemy.Damage(DamageManager.s_Instance.GetSquireDamage());
-            }
+            m_Squires[i].Attack();
         }
-
-        //Ranger Attack
-        for (int i = 0; i < m_RangerAttackLastTime.Count; i++)
+        for (int i = 0; i < m_Rangers.Count; i++)
         {
-            if (Time.time - m_RangerAttackLastTime[i] >= 0.5f)
-            {
-                m_RangerAttackLastTime[i] = Time.time; //Sets last time of click to current time
-                EnemyManager.s_Instance.CurrentEnemy.Damage(DamageManager.s_Instance.GetRangerDamage());
-            }
+            m_Villagers[i].Attack();
         }
-
-        //Knight Attack
-        for (int i = 0; i < m_KnightAttackLastTime.Count; i++)
+        for (int i = 0; i < m_Knights.Count; i++)
         {
-            if (Time.time - m_KnightAttackLastTime[i] >= 1.0f)
-            {
-                m_KnightAttackLastTime[i] = Time.time; //Sets last time of click to current time
-                EnemyManager.s_Instance.CurrentEnemy.Damage(DamageManager.s_Instance.GetKnightDamage());
-            }
+            m_Villagers[i].Attack();
         }
     }
+    #region SHOP CODE
+
+    private void BuyUnit<T>(T unit, List<T> listToAddTo, int unitCost)
+    {
+        if (GameManager.s_Instance.IsPurchasePossible(unitCost))
+        {
+            GameManager.s_Instance.TakeGold(unitCost);
+            listToAddTo.Add(unit);
+            DataManager.Save(FileNameConfig.CLICKERDATA, this.state); //Save the state of clickers after buying a new one
+        }
+    }
+
 
     public void OnBuyVillager()
     {
         if (GameManager.s_Instance.IsPurchasePossible(m_VillagerCost))
         {
-            GameManager.s_Instance.TakeGold(m_VillagerCost);
-            m_VillagerAttackLastTime.Add(Time.time);
-            m_VillagerAmountText.text = $"x {m_VillagerAttackLastTime.Count}";
+            BuyUnit(new Villager(), m_Villagers, m_VillagerCost);
             m_VillagerCost = CalculateNewCost(m_VillagerCost, 1.15f);
-            m_VillagerCostText.text = $"Villager\n{m_VillagerCost} Gold";
+            UpdateUI(m_VillagerAmountText, m_Villagers.Count, m_VillagerCostText, "Villager", m_VillagerCost);
         }
     }
 
@@ -87,11 +120,9 @@ public class ClickManager : MonoBehaviour
     {
         if (GameManager.s_Instance.IsPurchasePossible(m_SquireCost))
         {
-            GameManager.s_Instance.TakeGold(m_SquireCost);
-            m_SquireAttackLastTime.Add(Time.time);
-            m_SquireAmountText.text = $"x {m_SquireAttackLastTime.Count}";
+            BuyUnit(new Squire(), m_Squires, m_SquireCost);
             m_SquireCost = CalculateNewCost(m_SquireCost, 1.13f);
-            m_SquireCostText.text = $"Squire\n{m_SquireCost} Gold";
+            UpdateUI(m_SquireAmountText, m_Squires.Count, m_SquireCostText, "Squire", m_SquireCost);
         }
     }
 
@@ -99,11 +130,9 @@ public class ClickManager : MonoBehaviour
     {
         if (GameManager.s_Instance.IsPurchasePossible(m_RangerCost))
         {
-            GameManager.s_Instance.TakeGold(m_RangerCost);
-            m_RangerAttackLastTime.Add(Time.time);
-            m_RangerAmountText.text = $"x {m_RangerAttackLastTime.Count}";
+            BuyUnit(new Ranger(), m_Rangers, m_RangerCost);
             m_RangerCost = CalculateNewCost(m_RangerCost, 1.13f);
-            m_RangerCostText.text = $"Ranger\n{m_RangerCost} Gold";
+            UpdateUI(m_RangerAmountText, m_Rangers.Count, m_RangerCostText, "Ranger", m_RangerCost);
         }
     }
 
@@ -111,18 +140,80 @@ public class ClickManager : MonoBehaviour
     {
         if (GameManager.s_Instance.IsPurchasePossible(m_KnightCost))
         {
-            GameManager.s_Instance.TakeGold(m_KnightCost);
-            m_KnightAttackLastTime.Add(Time.time);
-            m_KnightAmountText.text = $"x {m_KnightAttackLastTime.Count}";
+            BuyUnit(new Knight(), m_Knights, m_KnightCost);
             m_KnightCost = CalculateNewCost(m_KnightCost, 1.13f);
-            m_KnightCostText.text = $"Knight\n{m_KnightCost} Gold";
+            UpdateUI(m_KnightAmountText, m_Knights.Count, m_KnightCostText, "Knight", m_KnightCost);
         }
+    }
+    #endregion
+
+    void UpdateUI(TextMeshProUGUI unitAmountText,int unitAmount, TextMeshProUGUI unitCostText,string unitName, int unitCost)
+    {
+        unitAmountText.text = $"x {unitAmount}";
+        unitCostText.text = $"{unitName}\n {unitCost} Gold";
     }
 
     int CalculateNewCost(int unitCost, float costMultiplier)
+    {        
+       return unitCost = Mathf.RoundToInt(Mathf.Pow(unitCost, costMultiplier));  
+    }
+
+    #region Data
+    public void LoadState()
     {
-        
-       return Mathf.RoundToInt(Mathf.Pow(unitCost, costMultiplier));
-       
+        state = DataManager.Load<ClickerState>(FileNameConfig.CLICKERDATA, state);
+        m_Villagers = state.Villagers;
+        m_VillagerCost = state.VillagerCost;
+        m_Squires = state.Squires;
+        m_SquireCost = state.SquireCost;
+        m_Rangers = state.Rangers;
+        m_RangerCost = state.RangerCost;
+        m_Knights = state.Knights;
+        m_KnightCost = state.KnightCost;
+
+        UpdateUI(m_VillagerAmountText, m_Villagers.Count, m_VillagerCostText, "Villager", m_VillagerCost);
+        UpdateUI(m_SquireAmountText, m_Squires.Count, m_SquireCostText, "Squire", m_SquireCost);
+        UpdateUI(m_RangerAmountText, m_Rangers.Count, m_RangerCostText, "Ranger", m_RangerCost);
+        UpdateUI(m_KnightAmountText, m_Knights.Count, m_KnightCostText, "Knight", m_KnightCost);
+    }
+
+    void ResetClickers()
+    {        
+        m_Villagers.Clear();
+        m_Squires.Clear();
+        m_Rangers.Clear();
+        m_Knights.Clear();
+
+        m_VillagerCost = 10;
+        m_SquireCost = 100;
+        m_RangerCost = 200;
+        m_KnightCost = 500;
+
+        UpdateUI(m_VillagerAmountText, m_Villagers.Count, m_VillagerCostText, "Villager", m_VillagerCost);
+        UpdateUI(m_SquireAmountText, m_Squires.Count, m_SquireCostText, "Squire", m_SquireCost);
+        UpdateUI(m_RangerAmountText, m_Rangers.Count, m_RangerCostText, "Ranger", m_RangerCost);
+        UpdateUI(m_KnightAmountText, m_Knights.Count, m_KnightCostText, "Knight", m_KnightCost);
+        DataManager.Save(FileNameConfig.CLICKERDATA, this.state);
+    }
+    #endregion
+
+    private void OnDestroy()
+    {
+        GameManager.s_OnResetGame -= ResetClickers;
+    }
+
+    [Serializable]
+    public class ClickerState
+    {
+        public Dictionary<string, List<AutoClicker>> AutoClickers;
+        public List<AutoClicker> Villagers;
+        public List<AutoClicker> Squires;
+        public List<AutoClicker> Rangers;
+        public List<AutoClicker> Knights;
+
+        public int VillagerCost;
+        public int SquireCost;
+        public int RangerCost;
+        public int KnightCost;
     }
 }
