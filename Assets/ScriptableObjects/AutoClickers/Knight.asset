@@ -26,4 +26,5 @@ MonoBehaviour:
   AttackCooldown: 1
   TimeTillAttack: 0
   UnitCost: 500
-  CostMultiplier: 1.15
+  CostMultiplier: 1.11
+  NextUnitCost: 500

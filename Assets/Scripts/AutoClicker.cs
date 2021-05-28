@@ -2,13 +2,16 @@
 using Sirenix.OdinInspector;
 
 [CreateAssetMenu]
-public class AutoClicker : ScriptableObject
+public class AutoClicker : SerializedScriptableObject
 {
     public string Name;
     public int Damage;
     public float AttackCooldown;
+    public float TimeTillAttack;
 
-    private float TimeTillAttack;
+    public int UnitCost;
+    public float CostMultiplier;
+    public int NextUnitCost;
 
     public void Init(string name, int damage, float attackCooldown)
     {
@@ -16,6 +19,7 @@ public class AutoClicker : ScriptableObject
         Damage = damage;
         AttackCooldown = attackCooldown;
     }
+
     /// <summary>
     /// Checks if unit is ready to attack. If so deal damage, if not do nothing
     /// </summary>

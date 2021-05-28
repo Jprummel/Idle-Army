@@ -1,15 +1,22 @@
-﻿using System.Collections;
+﻿using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine;
+using System;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 
-public class EnemyManager : MonoBehaviour
+public class EnemyManager : SerializedMonoBehaviour
 {
-    [SerializeField] private GameObject[] m_EnemyPrefabs;
-    public Enemy CurrentEnemy;
-    [SerializeField] private Transform m_Canvas;
-
+    [SerializeField,HideInInspector]
+    private EnemyState state = new EnemyState(); 
     public static EnemyManager s_Instance;
+
+    [OdinSerialize] private List<Enemy> m_Enemies = new List<Enemy>();
+    [OdinSerialize]public Enemy CurrentEnemy
+    {
+        get { return this.state.CurrentEnemy; }
+        set { this.state.CurrentEnemy = value; }
+    }
+    [SerializeField] private Transform m_Canvas;
 
     private void Awake()
     {
@@ -21,20 +28,50 @@ public class EnemyManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+        //LoadState();
     }
 
     public void CreateNewEnemy()
     {
-        GameObject enemyToSpawn = m_EnemyPrefabs[Random.Range(0, m_EnemyPrefabs.Length)];
+        Enemy enemyToSpawn = m_Enemies[UnityEngine.Random.Range(0, m_Enemies.Count)];
+        CurrentEnemy = Instantiate(enemyToSpawn, m_Canvas);
+    }
 
-        GameObject obj = Instantiate(enemyToSpawn, m_Canvas);
-
-        CurrentEnemy = obj.GetComponent<Enemy>();
+    public void CreateSpecificEnemy(int enemyID)
+    {
+        for (int i = 0; i < m_Enemies.Count; i++)
+        {
+            if(enemyID == m_Enemies[i].GetEnemyID())
+            {
+                Debug.Log(i);
+                Enemy enemyToSpawn = Instantiate(m_Enemies[i], m_Canvas);
+                CurrentEnemy = enemyToSpawn;
+            }
+        }
     }
 
     public void DefeatEnemy(GameObject enemy)
     {
         Destroy(enemy);
-        CreateNewEnemy();
+        if (GameManager.s_Instance.GetCurrentStage() != 4)
+        {
+            CreateNewEnemy();
+        }
+        else
+        {
+            CreateSpecificEnemy(3);
+        }
+    }
+
+    private void LoadState()
+    {
+        state = DataManager.Load<EnemyState>(FileNameConfig.ENEMYDATA,state);
+        CurrentEnemy = state.CurrentEnemy;
+    }
+
+    [Serializable]
+    public class EnemyState
+    {
+        public Enemy CurrentEnemy;
     }
 }

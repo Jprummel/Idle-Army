@@ -3,8 +3,9 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] private int m_EnemyID;
     [SerializeField] private float m_MaxHP;
-    private float m_CurrentHP;
+    [SerializeField,HideInInspector]private float m_CurrentHP;
     [SerializeField] private int m_GoldToGive;
     [SerializeField] private Image m_HealthBarFill;
     [SerializeField] private Animation m_DamageAnim;
@@ -17,6 +18,11 @@ public class Enemy : MonoBehaviour
             CalculateGoldToGive();
         }
         m_CurrentHP = m_MaxHP;
+    }
+
+    public int GetEnemyID()
+    {
+        return m_EnemyID;
     }
 
     public void Damage(int damage)

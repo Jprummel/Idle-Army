@@ -56,12 +56,13 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+        LoadState();
         s_OnResetGame += ResetGameData;
     }
 
     private void Start()
     {
-        LoadState();
+        
     }
 
     public void AddGold(int amount)
@@ -120,7 +121,7 @@ public class GameManager : MonoBehaviour
         DataManager.Save(FileNameConfig.GAMEDATA, this.state);
     }
 
-    public void LoadState()
+    private void LoadState()
     {
         this.state = DataManager.Load<GameState>(FileNameConfig.GAMEDATA, this.state);
         if (state != null)
@@ -136,11 +137,11 @@ public class GameManager : MonoBehaviour
         m_StageText.text = $"Stage {m_Stage}/{m_MaxStage}";
         m_BackgroundImage.sprite = m_Backgrounds[m_CurrentBackground];
         m_GoldText.text = $"Gold: {m_Gold}";
-        EnemyManager.s_Instance.CurrentEnemy = GameObject.FindObjectOfType<Enemy>();
+        //EnemyManager.s_Instance.CurrentEnemy = GameObject.FindObjectOfType<Enemy>();
     }
 
     // Starts a new game
-    public void ResetGameData()
+    private void ResetGameData()
     {
         //Destroys current enemy and creates a new one
         Destroy(EnemyManager.s_Instance.CurrentEnemy.gameObject);
@@ -161,6 +162,11 @@ public class GameManager : MonoBehaviour
     public void ResetGame()
     {
         s_OnResetGame();
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 
     private void OnDestroy()

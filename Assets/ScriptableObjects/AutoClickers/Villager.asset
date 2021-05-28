@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd1852514f101dc49b8b9ba53662bc39, type: 3}
-  m_Name: Ranger
+  m_Name: Villager
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,9 +21,10 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  Name: Ranger
-  Damage: 5
-  AttackCooldown: 0.5
-  TimeTillAttack: 0
-  UnitCost: 200
+  Name: Villager
+  Damage: 1
+  AttackCooldown: 1
+  TimeTillAttack: 0.53354156
+  UnitCost: 10
   CostMultiplier: 1.15
+  NextUnitCost: 10

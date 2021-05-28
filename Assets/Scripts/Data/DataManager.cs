@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.IO;
+using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 
 public class DataManager : MonoBehaviour
@@ -29,15 +30,21 @@ public class DataManager : MonoBehaviour
         if (!File.Exists($"{Application.persistentDataPath}/{fileName}"))
         {
             Save<T>(fileName, dataObject);
-            byte[] bytes = File.ReadAllBytes($"{Application.persistentDataPath}/{fileName}");
-            T data = SerializationUtility.DeserializeValue<T>(bytes, DataFormat.Binary);
-            return data;
+            
         }
-        else //otherwise just load
+        byte[] bytes = File.ReadAllBytes($"{Application.persistentDataPath}/{fileName}");
+        T data = SerializationUtility.DeserializeValue<T>(bytes, DataFormat.Binary);
+        return data;
+    }
+
+    [Button]
+    public void DeleteSaveFiles() //For quickly deleting test save files
+    {
+        if (File.Exists($"{Application.persistentDataPath}/{FileNameConfig.GAMEDATA}"))
         {
-            byte[] bytes = File.ReadAllBytes($"{Application.persistentDataPath}/{fileName}");
-            T data = SerializationUtility.DeserializeValue<T>(bytes, DataFormat.Binary);
-            return data;
+            File.Delete($"{Application.persistentDataPath}/{FileNameConfig.GAMEDATA}");
+            File.Delete($"{Application.persistentDataPath}/{FileNameConfig.CLICKERDATA}");
+            File.Delete($"{Application.persistentDataPath}/{FileNameConfig.ENEMYDATA}");
         }
     }
 }

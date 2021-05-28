@@ -125,6 +125,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7794740746801018853, guid: 5057aef43ec9b9946825160ac3a44466,
         type: 3}
+      propertyPath: m_EnemyID
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7794740746801018853, guid: 5057aef43ec9b9946825160ac3a44466,
+        type: 3}
       propertyPath: m_GoldToGive
       value: 8
       objectReference: {fileID: 0}
