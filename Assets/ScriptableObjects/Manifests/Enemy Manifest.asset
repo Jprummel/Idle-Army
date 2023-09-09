@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f020d709e0bf30f43a1e5ac7e68640de, type: 3}
+  m_Name: Enemy Manifest
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  m_AllEnemies:
+  - {fileID: 11400000, guid: 6eb649369a071af4c9b634597411edc4, type: 2}
+  - {fileID: 11400000, guid: 34d7507f9deb3bd4ca7e0fa453a1a6e8, type: 2}
+  - {fileID: 11400000, guid: c0b676b060211a64283ecf3a2772bbdc, type: 2}
+  - {fileID: 11400000, guid: 175c9524bdeb0c24993110a73c7518db, type: 2}
+  m_AllBosses: []

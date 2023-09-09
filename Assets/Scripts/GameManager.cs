@@ -2,161 +2,42 @@
 using TMPro;
 using UnityEngine.UI;
 using Sirenix.OdinInspector;
-using System; 
+using System;
+using StardustInteractive.Saving;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager s_Instance;
+    public static GameManager Instance;
 
     public delegate void Reset();
     public static Reset s_OnResetGame;
 
-    [SerializeField,HideInInspector]
-    private GameState state = new GameState();
 
-    //Player stats
-    [ShowInInspector] private int m_Level
-    {
-        get { return this.state.Level; }
-        set { this.state.Level = value; }
-    }
-    [ShowInInspector] private int m_Stage
-    {
-        get { return this.state.Stage; }
-        set { this.state.Stage = value; }
-    }
-    [SerializeField, HideInInspector] private int m_MaxStage = 5;
-    [ShowInInspector] private int m_Gold
-    {
-        get { return this.state.Gold; }
-        set { this.state.Gold = value; }
-    }
+    //Managers
+    [ShowInInspector, ReadOnly] private AutoclickerManager m_AutoClickManager;
+    [ShowInInspector, ReadOnly] private EnemyManager m_EnemyManager;
+    [ShowInInspector, ReadOnly] private GoldManager m_GoldManager;
+    [ShowInInspector, ReadOnly] private ProgressionManager m_ProgressionManager;
+    [ShowInInspector, ReadOnly] private SavingSystem m_SaveManager;
 
-    //UI
-    [TabGroup("HUD")] [SerializeField] private TextMeshProUGUI m_LevelText;
-    [TabGroup("HUD")] [SerializeField] private TextMeshProUGUI m_StageText;
-    [TabGroup("HUD")] [SerializeField] private TextMeshProUGUI m_GoldText;
-
-    //Background
-    [TabGroup("Background")] [SerializeField] private Image m_BackgroundImage;
-    [TabGroup("Background")] [SerializeField] private Sprite[] m_Backgrounds;
-    [SerializeField,HideInInspector] private int m_CurrentBackground
-    {
-        get { return this.state.CurrentBackground; }
-        set { this.state.CurrentBackground = value; }
-    }
+    public AutoclickerManager AutoClickManager => m_AutoClickManager;
+    public EnemyManager EnemyManager => m_EnemyManager;
+    public GoldManager Wallet => m_GoldManager;
+    public ProgressionManager ProgressionManager => m_ProgressionManager;
+    public SavingSystem SaveManager => m_SaveManager;
 
     private void Awake()
     {
-        if (s_Instance == null)
+        if (Instance == null)
         {
-            s_Instance = this;
+            Instance = this;
         }
         else
         {
             Destroy(this.gameObject);
         }
-        LoadState();
-        s_OnResetGame += ResetGameData;
-    }
-
-    private void Start()
-    {
-        
-    }
-
-    public void AddGold(int amount)
-    {
-        m_Gold += amount;
-        m_GoldText.text = $"Gold: {m_Gold}";
-    }
-
-    public void TakeGold(int amount)
-    {
-        m_Gold -= amount;
-        m_GoldText.text = $"Gold: {m_Gold}";
-        DataManager.Save(FileNameConfig.GAMEDATA, this.state);
-    }
-
-    public bool IsPurchasePossible(int cost)
-    {
-        if (cost <= m_Gold)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    public int GetCurrentLevel()
-    {
-        return m_Level;
-    }
-
-    public int GetCurrentStage()
-    {
-        return m_Stage;
-    }
-
-    public void NextStage()
-    {
-        m_Stage++;
-        if (m_Stage > m_MaxStage)
-        {
-            m_Level++; //Start next level
-            m_Stage = 1; //First stage of next level
-            m_LevelText.text = $"Level {m_Level}";
-
-            //Change background
-            m_CurrentBackground++;
-            if (m_CurrentBackground == m_Backgrounds.Length)
-            {
-                m_CurrentBackground = 0; // Reset to 0 if end of background array is reached
-            }
-            m_BackgroundImage.sprite = m_Backgrounds[m_CurrentBackground];
-        }
-        m_StageText.text = $"Stage {m_Stage}/{m_MaxStage}";
-        DataManager.Save(FileNameConfig.GAMEDATA, this.state);
-    }
-
-    private void LoadState()
-    {
-        this.state = DataManager.Load<GameState>(FileNameConfig.GAMEDATA, this.state);
-        if (state != null)
-        {
-            m_Level = state.Level;
-            m_Stage = state.Stage;
-            m_Gold = state.Gold;
-            m_CurrentBackground = state.CurrentBackground;
-        }
-
-        //UI & Background
-        m_LevelText.text = $"Level {m_Level}";
-        m_StageText.text = $"Stage {m_Stage}/{m_MaxStage}";
-        m_BackgroundImage.sprite = m_Backgrounds[m_CurrentBackground];
-        m_GoldText.text = $"Gold: {m_Gold}";
-        //EnemyManager.s_Instance.CurrentEnemy = GameObject.FindObjectOfType<Enemy>();
-    }
-
-    // Starts a new game
-    private void ResetGameData()
-    {
-        //Destroys current enemy and creates a new one
-        Destroy(EnemyManager.s_Instance.CurrentEnemy.gameObject);
-        EnemyManager.s_Instance.CreateNewEnemy();
-        m_CurrentBackground = 0;
-
-        m_Level = 1;
-        m_Stage = 1;
-        m_Gold = 0;
-
-        m_GoldText.text = $"Gold: {m_Gold}";
-        m_LevelText.text = $"Level {m_Level}";
-        m_StageText.text = $"Stage {m_Stage}/{m_MaxStage}";
-        m_BackgroundImage.sprite = m_Backgrounds[m_CurrentBackground];
-        DataManager.Save(FileNameConfig.GAMEDATA, this.state);
+        GameEvents.GameManagerInitialized();
+        InitializeManagers();
     }
 
     public void ResetGame()
@@ -169,17 +50,69 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
-    private void OnDestroy()
+    private void InitializeManagers()
     {
-        s_OnResetGame -= ResetGameData;
+        m_AutoClickManager.Initialize();
+        m_EnemyManager.Initialize();
+        m_GoldManager.Initialize();
+        m_ProgressionManager.Initialize();
     }
 
-    [Serializable]
-    public class GameState
+    private void DeInitializeManagers()
     {
-        public int Level;
-        public int Stage;
-        public int Gold;
-        public int CurrentBackground;
+        m_AutoClickManager.DeInitialize();
+        m_EnemyManager.DeInitialize();
+        m_GoldManager.DeInitialize();
+        m_ProgressionManager.DeInitialize();
     }
+
+    private void OnDestroy()
+    {
+        DeInitializeManagers();
+    }
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if (m_AutoClickManager == null)
+        {
+            if (FindObjectOfType<AutoclickerManager>() != null)
+            {
+                m_AutoClickManager = FindObjectOfType<AutoclickerManager>();
+            }
+        }
+
+        if(m_GoldManager == null)
+        {
+            if(FindObjectOfType<GoldManager>() != null)
+            {
+                m_GoldManager = FindObjectOfType<GoldManager>();
+            }
+        }
+
+        if(m_EnemyManager == null)
+        {
+            if(FindObjectOfType<EnemyManager>() != null)
+            {
+                m_EnemyManager = FindObjectOfType<EnemyManager>();
+            }
+        }
+
+        if(m_ProgressionManager == null)
+        {
+            if (FindObjectOfType<ProgressionManager>() != null)
+            {
+                m_ProgressionManager = FindObjectOfType<ProgressionManager>();
+            }
+        }
+
+        if(m_SaveManager == null)
+        {
+            if(FindObjectOfType<SavingSystem>() != null)
+            {
+                m_SaveManager = FindObjectOfType<SavingSystem>();
+            }
+        }
+    }
+#endif
 }

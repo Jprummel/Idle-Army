@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59728e77e7ae83546888419b32275c4a, type: 3}
+  m_Name: AutoClicker Manifest
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  m_AllAutoClickers:
+  - {fileID: 11400000, guid: 833f5e49eed16a24b9d01ebad39ed454, type: 2}
+  - {fileID: 11400000, guid: fd003c7bc16287c4089e2d4c9ebaecd3, type: 2}
+  - {fileID: 11400000, guid: fb9dc75a6e473e744b3a238f1d816490, type: 2}
+  - {fileID: 11400000, guid: c8f56911af4fafd42b0e5e83b0b5bce0, type: 2}
+  - {fileID: 11400000, guid: 1f22626d11c919d4f894f0b6333eb4d4, type: 2}
+  - {fileID: 11400000, guid: 03db74a252619a34586db68293d20f4f, type: 2}

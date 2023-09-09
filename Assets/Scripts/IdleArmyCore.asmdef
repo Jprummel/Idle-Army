@@ -1,0 +1,21 @@
+{
+    "name": "IdleArmyCore",
+    "rootNamespace": "",
+    "references": [
+        "GUID:50ae564426de04540ab295e4fadcd4f5",
+        "GUID:1ecc3f7f03f63b6478c965aefe39a60a",
+        "GUID:8d9e84799a3968d4ba38c55892d14093",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:d16dbdc21998d7e408f1e2a6292ecfc4",
+        "GUID:d7e3039e275b2f741a5a614511f7fda6"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

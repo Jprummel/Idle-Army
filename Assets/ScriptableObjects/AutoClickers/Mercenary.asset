@@ -21,10 +21,11 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  Name: Mercenary
-  Damage: 10
-  AttackCooldown: 1
-  TimeTillAttack: 0
-  UnitCost: 400
-  CostMultiplier: 1.13
-  NextUnitCost: 400
+  m_AutoClickerType: 3
+  m_AutoClickerName: Mercenary
+  m_Description: 
+  m_Damage: 35
+  m_AttackSpeed: 1
+  m_BaseCost: 275
+  m_CostMultiplier: 1.7
+  m_AttackTimerID: MERCENARY_ATTACK

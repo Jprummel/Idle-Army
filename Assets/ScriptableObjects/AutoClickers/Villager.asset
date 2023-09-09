@@ -21,10 +21,11 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  Name: Villager
-  Damage: 1
-  AttackCooldown: 1
-  TimeTillAttack: 0.53354156
-  UnitCost: 10
-  CostMultiplier: 1.15
-  NextUnitCost: 10
+  m_AutoClickerType: 1
+  m_AutoClickerName: Villager
+  m_Description: A poor villager trying to defend their home.
+  m_Damage: 1
+  m_AttackSpeed: 0.6
+  m_BaseCost: 5
+  m_CostMultiplier: 1.7
+  m_AttackTimerID: VILLAGER_ATTACK

@@ -21,10 +21,11 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  Name: Squire
-  Damage: 7
-  AttackCooldown: 1
-  TimeTillAttack: 0
-  UnitCost: 100
-  CostMultiplier: 1.13
-  NextUnitCost: 100
+  m_AutoClickerType: 2
+  m_AutoClickerName: Squire
+  m_Description: 
+  m_Damage: 6
+  m_AttackSpeed: 1
+  m_BaseCost: 20
+  m_CostMultiplier: 1.7
+  m_AttackTimerID: SQUIRE_ATTACK
