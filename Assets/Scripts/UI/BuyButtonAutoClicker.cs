@@ -9,13 +9,15 @@ public class BuyButtonAutoClicker : BuyButton
     [SerializeField] private TextMeshProUGUI m_Cost;
     [SerializeField] private TextMeshProUGUI m_Owned;
 
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
         UIEvents.OnAutoClickersChanged += RefreshUI;
     }
 
-    private void OnDestroy()
+    public override void OnDestroy()
     {
+        base.OnDestroy();
         UIEvents.OnAutoClickersChanged -= RefreshUI;
     }
 

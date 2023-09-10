@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_EnemyName: Boar
   m_Difficulty: 0
-  m_EnemySprite: {fileID: 21300000, guid: d56c69c386affd04281354188d3135d1, type: 3}
+  m_EnemySprite: {fileID: 21300000, guid: 14c7a19f3bf11704684e1c8343a2cfed, type: 3}
   m_BaseMaxHP: 10
   m_BaseGoldReward: 2
+  m_IdleAnim: {fileID: 7400000, guid: 5debd151b415518449724d35dafa50eb, type: 2}
   m_DamageAnim: {fileID: 0}

@@ -6,14 +6,20 @@ using Sirenix.Serialization;
 using UnityEngine.UI;
 using System.Runtime.InteropServices;
 using DG.Tweening;
+using Animancer;
+using TMPro;
+using StardustInteractive.Saving;
 
-public class EnemyManager : ManagerBase
+public class EnemyManager : ManagerBase, ISaveable
 {
     [SerializeField] private EnemyManifest m_EnemyManifest;
     [TabGroup("Tabs", "UI"), SerializeField] private Button m_EnemyButton;
     [TabGroup("Tabs", "UI"), SerializeField] private Image m_EnemyImage;
     [TabGroup("Tabs", "UI"), SerializeField] private Image m_HealthBarFill;
+    [TabGroup("Tabs", "UI"), SerializeField] private TextMeshProUGUI m_HealthText;
+    [TabGroup("Tabs", "UI"), SerializeField] private TextMeshProUGUI m_EnemyName;
 
+    [TabGroup("Tabs", "Animation"), SerializeField] private AnimancerComponent m_Animancer;
     [TabGroup("Tabs", "Animation"), SerializeField] private float m_ShakeDuration;
     [TabGroup("Tabs", "Animation"), SerializeField] private float m_ShakeStrength;
     [TabGroup("Tabs", "Animation"), SerializeField] private int m_ShakeVibrato;
@@ -25,8 +31,8 @@ public class EnemyManager : ManagerBase
 
     //EnemyData
     private EnemyData m_CurrentEnemy;
-    private float m_MaxHealth;
-    private float m_EnemyCurrentHP;
+    private float m_EnemyMaxHealth;
+    private float m_EnemyCurrentHealth;
     private int m_GoldReward;
 
     private Vector3 m_originalPosition;
@@ -43,20 +49,26 @@ public class EnemyManager : ManagerBase
 
     public void SpawnNewEnemy()
     {
-        EnemyData newEnemy = m_EnemyManifest.GetRandomEnemy();
+        EnemyData newEnemy = GameManager.Instance.ProgressionManager.CurrentLevelData().GetRandomEnemy();
         m_CurrentEnemy = newEnemy;
-        m_MaxHealth = CalculateMaxHealth();
+        m_EnemyMaxHealth = CalculateMaxHealth();
         m_GoldReward = CalculateGoldToGive();
-        m_EnemyCurrentHP = m_MaxHealth;
+        m_EnemyCurrentHealth = m_EnemyMaxHealth;
 
         SetupVisuals();
     }
 
     public void SpawnBoss()
     {
-        BossData newBoss = m_EnemyManifest.GetBossByLevel(GameManager.Instance.ProgressionManager.CurrentLevel);
+        if (GameManager.Instance.ProgressionManager.CurrentLevelData().Boss == null)
+        {
+            //Level has no boss, spawn regular enemy and return
+            SpawnNewEnemy();
+            return;
+        }
+        BossData newBoss = GameManager.Instance.ProgressionManager.CurrentLevelData().Boss;
         m_CurrentEnemy = newBoss;
-        m_EnemyCurrentHP = CalculateMaxHealth();
+        m_EnemyCurrentHealth = CalculateMaxHealth();
         m_GoldReward = CalculateGoldToGive();
         UIEvents.EnemySpawned(m_CurrentEnemy);
     }
@@ -68,14 +80,14 @@ public class EnemyManager : ManagerBase
 
     public void Damage(int damage)
     {
-        m_EnemyCurrentHP -= damage;
+        m_EnemyCurrentHealth -= damage;
         UpdateHealthBar();
 
         if (m_DamageSequence != null && !m_DamageSequence.IsPlaying())
         {
             m_DamageSequence.Play();
         }
-        if (m_EnemyCurrentHP <= 0)
+        if (m_EnemyCurrentHealth <= 0)
         {
             if (m_DamageSequence.IsPlaying())
             {
@@ -102,19 +114,40 @@ public class EnemyManager : ManagerBase
     public void OnEnemyKilled()
     {
         GameManager.Instance.Wallet.AddGold(m_GoldReward);
-        SpawnNewEnemy();
         GameEvents.ProgressStage();
+
+        if (GameManager.Instance.ProgressionManager.IsAtFinalStage)
+        {
+            if(GameManager.Instance.ProgressionManager.CurrentLevelData().Boss != null)
+            {
+                SpawnBoss();
+                return;
+            }
+            else
+            {
+                SpawnNewEnemy();
+                return;
+            }
+        }
+        SpawnNewEnemy();
     }
 
     private void SetupVisuals()
     {
         m_EnemyImage.sprite = m_CurrentEnemy.EnemySprite;
         UpdateHealthBar();
+        m_EnemyName.text = m_CurrentEnemy.Name;
+        if (m_CurrentEnemy.IdleAnim != null)
+        {
+            m_Animancer.Play(m_CurrentEnemy.IdleAnim);
+        }
     }
 
     private void UpdateHealthBar()
     {
-        m_HealthBarFill.fillAmount = m_EnemyCurrentHP / m_MaxHealth;
+        m_HealthBarFill.DOFillAmount(m_EnemyCurrentHealth / m_EnemyMaxHealth, 0.1f).SetEase(Ease.OutExpo);
+        m_HealthText.SetText($"{m_EnemyCurrentHealth} HP");
+
     }
 
     int CalculateGoldToGive()
@@ -131,5 +164,43 @@ public class EnemyManager : ManagerBase
     {
         m_EnemyButton.onClick.RemoveListener(ClickDamage);
         base.DeInitialize();
+    }
+
+    public void Save(string uniqueIdentifier, string saveFile)
+    {
+        ES3.Save($"Enemy_{uniqueIdentifier}",m_CurrentEnemy, saveFile);
+        ES3.Save($"Enemy_MaxHealth_{uniqueIdentifier}", m_EnemyMaxHealth, saveFile);
+        ES3.Save($"Enemy_CurrentHealth_{uniqueIdentifier}", m_EnemyCurrentHealth, saveFile);
+        ES3.Save($"Enemy_GoldReward_{uniqueIdentifier}", m_GoldReward, saveFile);
+    }
+
+    public void Load(string uniqueIdentifier, string saveFile)
+    {
+        if (ES3.KeyExists($"Enemy_{uniqueIdentifier}",saveFile))
+        {
+            m_CurrentEnemy = ES3.Load<EnemyData>($"Enemy_{uniqueIdentifier}", saveFile);
+        }
+
+        if (ES3.KeyExists($"Enemy_MaxHealth_{uniqueIdentifier}", saveFile))
+        {
+            m_EnemyMaxHealth = ES3.Load<float>($"Enemy_MaxHealth_{uniqueIdentifier}", saveFile);
+        }
+
+        if (ES3.KeyExists($"Enemy_CurrentHealth_{uniqueIdentifier}", saveFile))
+        {
+            m_EnemyCurrentHealth = ES3.Load<float>($"Enemy_CurrentHealth_{uniqueIdentifier}", saveFile);
+        }
+
+        if (ES3.KeyExists($"Enemy_GoldReward_{uniqueIdentifier}", saveFile))
+        {
+            m_GoldReward = ES3.Load<int>($"Enemy_GoldReward_{uniqueIdentifier}", saveFile);
+        }
+
+        SetupVisuals();
+    }
+
+    public void ResetData(string uniqueIdentifier, string saveFile)
+    {
+        
     }
 }

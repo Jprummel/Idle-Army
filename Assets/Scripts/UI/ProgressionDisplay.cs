@@ -14,6 +14,12 @@ public class ProgressionDisplay : MonoBehaviour
         UIEvents.OnProgressLevel += UpdateLevelText;
     }
 
+    private void Start()
+    {
+        UpdateLevelText();
+        UpdateStageText();
+    }
+
     private void OnDestroy()
     {
         UIEvents.OnProgressStage -= UpdateStageText;
@@ -23,12 +29,12 @@ public class ProgressionDisplay : MonoBehaviour
     private void UpdateLevelText()
     {
         Debug.Log($"Updating level text");
-        m_LevelText.SetText($"Level: {GameManager.Instance.ProgressionManager.CurrentLevel}");
+        m_LevelText.SetText($"{GameManager.Instance.ProgressionManager.CurrentLevelData().LevelName} Lvl: {GameManager.Instance.ProgressionManager.CurrentLevel}");
     }
 
     private void UpdateStageText()
     {
-        m_StageText.SetText($"Stage: {GameManager.Instance.ProgressionManager.CurrentStage}/{GameManager.Instance.ProgressionManager.MaxStage}");
+        m_StageText.SetText($"{GameManager.Instance.ProgressionManager.CurrentStage}/{GameManager.Instance.ProgressionManager.MaxStage}");
     }
 
 }
