@@ -22,4 +22,9 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   m_LevelName: Desert
-  m_Background: {fileID: 21300000, guid: 75defa340782a144f8a31663ad9ff526, type: 3}
+  m_Background: {fileID: 21300000, guid: c5df33fe09e132146b52644f04b3c298, type: 3}
+  m_Enemies:
+  - {fileID: 11400000, guid: 0dfb155d92d68464eaffeae7b11b2c57, type: 2}
+  - {fileID: 11400000, guid: 6eb649369a071af4c9b634597411edc4, type: 2}
+  - {fileID: 11400000, guid: c0b676b060211a64283ecf3a2772bbdc, type: 2}
+  m_Boss: {fileID: 0}

@@ -1,5 +1,4 @@
 using Sirenix.OdinInspector;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +7,18 @@ public class LevelData : SerializedScriptableObject
 {
     [SerializeField] private string m_LevelName;
     [SerializeField] private Sprite m_Background;
+    [SerializeField] private List<EnemyData> m_Enemies = new List<EnemyData>();
+    [SerializeField] private BossData m_Boss;
 
     public string LevelName => m_LevelName;
     public Sprite Background => m_Background;
+    public List<EnemyData> Enemies => m_Enemies;
+    public BossData Boss => m_Boss;
+
+    public EnemyData GetRandomEnemy()
+    {
+        int randomIndex = Random.Range(0, m_Enemies.Count);
+        return m_Enemies[randomIndex];
+    }
+
 }

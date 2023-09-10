@@ -8,12 +8,12 @@ public class BuyButton : MonoBehaviour
 {
     [SerializeField] private Button m_button;
 
-    private void Awake()
+    public virtual void Awake()
     {
         m_button.onClick.AddListener(OnBuy); 
     }
 
-    private void OnDestroy()
+    public virtual void OnDestroy()
     {
         m_button.onClick.RemoveListener(OnBuy);
     }

@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a18fdb40d5eae3545a8d0771f43016a6, type: 3}
   m_Name: Bat
   m_EditorClassIdentifier: 
-  m_EnemyName: Boar
+  m_EnemyName: Bat
   m_Difficulty: 0
   m_EnemySprite: {fileID: 21300000, guid: bb9f0fc046efdbe4f9ff6b530dff989c, type: 3}
   m_BaseMaxHP: 15
   m_BaseGoldReward: 4
+  m_IdleAnim: {fileID: 0}
   m_DamageAnim: {fileID: 0}

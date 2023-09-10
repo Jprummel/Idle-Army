@@ -8,13 +8,14 @@ public class ProgressionManager : ManagerBase, ISaveable
     [ShowInInspector, ReadOnly] private int m_CurrentLevel = 1;
     [ShowInInspector, ReadOnly] private int m_CurrentStage = 1;
 
-    [SerializeField, HideInInspector] private int m_MaxStage = 5;
+    private int m_MaxStage = 10;
 
 
     public int CurrentLevel => m_CurrentLevel;
     public int CurrentStage => m_CurrentStage;
 
     public int MaxStage => m_MaxStage;
+    public bool IsAtFinalStage => m_CurrentStage == m_MaxStage;
 
     public override void Initialize()
     {
@@ -26,6 +27,11 @@ public class ProgressionManager : ManagerBase, ISaveable
     {
         GameEvents.OnProgressStage -= Progress;
         base.DeInitialize();
+    }
+
+    public LevelData CurrentLevelData()
+    {
+        return m_LevelManifest.GetLevelData(m_CurrentLevel);
     }
 
     public void Progress()
