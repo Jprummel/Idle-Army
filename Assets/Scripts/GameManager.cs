@@ -14,13 +14,15 @@ public class GameManager : MonoBehaviour
 
 
     //Managers
-    [ShowInInspector, ReadOnly] private AutoclickerManager m_AutoClickManager;
+    [ShowInInspector, ReadOnly] private HeroManager m_HeroManager;
+    [ShowInInspector, ReadOnly] private UpgradesManager m_UpgradeManager;
     [ShowInInspector, ReadOnly] private EnemyManager m_EnemyManager;
     [ShowInInspector, ReadOnly] private GoldManager m_GoldManager;
     [ShowInInspector, ReadOnly] private ProgressionManager m_ProgressionManager;
     [ShowInInspector, ReadOnly] private SavingSystem m_SaveManager;
 
-    public AutoclickerManager AutoClickManager => m_AutoClickManager;
+    public HeroManager HeroManager => m_HeroManager;
+    public UpgradesManager UpgradesManager => m_UpgradeManager;
     public EnemyManager EnemyManager => m_EnemyManager;
     public GoldManager Wallet => m_GoldManager;
     public ProgressionManager ProgressionManager => m_ProgressionManager;
@@ -52,7 +54,7 @@ public class GameManager : MonoBehaviour
 
     private void InitializeManagers()
     {
-        m_AutoClickManager.Initialize();
+        m_HeroManager.Initialize();
         m_EnemyManager.Initialize();
         m_GoldManager.Initialize();
         m_ProgressionManager.Initialize();
@@ -60,7 +62,7 @@ public class GameManager : MonoBehaviour
 
     private void DeInitializeManagers()
     {
-        m_AutoClickManager.DeInitialize();
+        m_HeroManager.DeInitialize();
         m_EnemyManager.DeInitialize();
         m_GoldManager.DeInitialize();
         m_ProgressionManager.DeInitialize();
@@ -74,15 +76,23 @@ public class GameManager : MonoBehaviour
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        if (m_AutoClickManager == null)
+        if (m_HeroManager == null)
         {
-            if (FindObjectOfType<AutoclickerManager>() != null)
+            if (FindObjectOfType<HeroManager>() != null)
             {
-                m_AutoClickManager = FindObjectOfType<AutoclickerManager>();
+                m_HeroManager = FindObjectOfType<HeroManager>();
             }
         }
 
-        if(m_GoldManager == null)
+        if (m_UpgradeManager == null)
+        {
+            if (FindObjectOfType<UpgradesManager>() != null)
+            {
+                m_UpgradeManager = FindObjectOfType<UpgradesManager>();
+            }
+        }
+
+        if (m_GoldManager == null)
         {
             if(FindObjectOfType<GoldManager>() != null)
             {

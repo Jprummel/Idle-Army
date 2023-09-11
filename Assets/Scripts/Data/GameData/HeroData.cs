@@ -2,7 +2,7 @@
 using Sirenix.OdinInspector;
 
 [CreateAssetMenu]
-public class AutoClickerData : GameData
+public class HeroData : GameData
 {
     [TitleGroup("AutoClicker","@m_AutoClickerName")]
     [HorizontalGroup("AutoClicker/Split", 0.5f, 0, 10)]
@@ -10,9 +10,9 @@ public class AutoClickerData : GameData
     [BoxGroup("AutoClicker/Split/Left/Info")]
     [PreviewField(100), HideLabel]
     [HorizontalGroup("AutoClicker/Split/Left/Info/AutoClicker Setup", 100)]
-    [SerializeField] private Sprite m_AutoClickerSprite;
-    [VerticalGroup("AutoClicker/Split/Left/Info/AutoClicker Setup/Right"), LabelWidth(120)] [SerializeField] private AutoClickerTypes m_AutoClickerType;
-    [VerticalGroup("AutoClicker/Split/Left/Info/AutoClicker Setup/Right"), LabelWidth(120)] [SerializeField] private string m_AutoClickerName;
+    [SerializeField] private Sprite m_Sprite;
+    [VerticalGroup("AutoClicker/Split/Left/Info/AutoClicker Setup/Right"), LabelWidth(120)] 
+    [OnValueChanged("GenerateAttackTimerID")][SerializeField] private Heros m_Hero;
     [VerticalGroup("AutoClicker/Split/Left/Info/AutoClicker Setup/Right"), LabelWidth(120)] [SerializeField, TextArea(2,3)] private string m_Description;
     [VerticalGroup("AutoClicker/Split/Left/Info/AutoClicker Setup/Right"), LabelWidth(120)] [SerializeField] private string m_FlavourText;
 
@@ -24,11 +24,11 @@ public class AutoClickerData : GameData
     [TabGroup("AutoClicker/Split/Right/Data/Tabs", "Cost")][SerializeField] private int m_BaseCost;
     [TabGroup("AutoClicker/Split/Right/Data/Tabs", "Cost")][SerializeField] private float m_CostMultiplier;
 
-    public AutoClickerTypes AutoClickerType => m_AutoClickerType;
-    public string Name => m_AutoClickerName;
+    public Heros Hero => m_Hero;
+    public string Name => GetCleanedName();
     public string Description => FilteredDescription();
     public string FlavourText => m_FlavourText;
-    public Sprite AutoClickerSprite => m_AutoClickerSprite;
+    public Sprite Sprite => m_Sprite;
     public float Damage => m_BaseDamage;
     public float AttackSpeed => m_AttackSpeed;
     public int BaseCost => m_BaseCost;
@@ -40,7 +40,7 @@ public class AutoClickerData : GameData
     [Button]
     private void GenerateAttackTimerID()
     {
-        m_AttackTimerID = $"{m_AutoClickerName}_Attack";
+        m_AttackTimerID = $"{m_Hero}_Attack";
         m_AttackTimerID = m_AttackTimerID.ToUpper();
     }
 
@@ -50,6 +50,11 @@ public class AutoClickerData : GameData
         filteredDescription.Replace("DMG", $"{m_BaseDamage}");
         filteredDescription.Replace("SPEED", $"{m_AttackSpeed}");
         return filteredDescription;
+    }
+
+    private string GetCleanedName()
+    {
+        return m_Hero.ToString().Replace("_", " ");
     }
 
 #if UNITY_EDITOR

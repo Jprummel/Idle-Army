@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Unlockable : ScriptableObject
+public class Unlockable : GameData
 {
     
 }

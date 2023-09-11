@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 2888858104436534021}
   - component: {fileID: 2862266205939051647}
   m_Layer: 5
-  m_Name: AutoClickerSprite (1)
+  m_Name: Divider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -314,6 +314,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_enableAutoSizing
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3020369582922434770, guid: a91d819d0c2841c408d7dfe75b7eb80d,
+        type: 3}
+      propertyPath: m_Name
+      value: HeroName
       objectReference: {fileID: 0}
     - target: {fileID: 3020369582922434771, guid: a91d819d0c2841c408d7dfe75b7eb80d,
         type: 3}
@@ -508,7 +513,7 @@ PrefabInstance:
     - target: {fileID: 3020369583922351831, guid: a91d819d0c2841c408d7dfe75b7eb80d,
         type: 3}
       propertyPath: m_Name
-      value: BuyButton_AutoClicker
+      value: BuyButton_Hero
       objectReference: {fileID: 0}
     - target: {fileID: 3020369584469665320, guid: a91d819d0c2841c408d7dfe75b7eb80d,
         type: 3}
@@ -551,9 +556,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_button: {fileID: 2084654371188216235}
-  m_AutoClicker: {fileID: 11400000, guid: 03db74a252619a34586db68293d20f4f, type: 2}
-  m_AutoClickerImage: {fileID: 6180203444741627339}
-  m_AutoClickerName: {fileID: 2084654372465743790}
+  m_HeroData: {fileID: 0}
+  m_HeroImage: {fileID: 6180203444741627339}
+  m_HeroName: {fileID: 2084654372465743790}
   m_Cost: {fileID: 2084654372741990439}
   m_Level: {fileID: 390456559}
 --- !u!224 &2084654371188216234 stripped

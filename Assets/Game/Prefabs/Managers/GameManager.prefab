@@ -10,9 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3734132563948109499}
   - component: {fileID: 3734132563948109500}
-  - component: {fileID: 3734132563948109503}
   m_Layer: 0
-  m_Name: _GameManager
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,32 +42,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bea80e5b9e4ce484c872dedab7624302, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  state:
-    Level: 1
-    Stage: 1
-    Gold: 0
-    CurrentBackground: 0
-  m_MaxStage: 5
-  m_LevelText: {fileID: 0}
-  m_StageText: {fileID: 0}
-  m_BackgroundImage: {fileID: 0}
-  m_Backgrounds:
-  - {fileID: 21300000, guid: 236025fedfdbab24a8caa0f5e604ecab, type: 3}
-  - {fileID: 21300000, guid: 75defa340782a144f8a31663ad9ff526, type: 3}
-  - {fileID: 21300000, guid: 79e9f970fde360843abfbc8eded90c55, type: 3}
-  - {fileID: 21300000, guid: fd7a2427e33a3b346844efdec4d7bbf5, type: 3}
-  - {fileID: 21300000, guid: 720d9bd6dcb2c6646926dd08c98ec444, type: 3}
---- !u!114 &3734132563948109503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3734132563948109497}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cac39b547a171044b017df720f9e65d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

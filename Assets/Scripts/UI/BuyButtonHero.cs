@@ -2,25 +2,25 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BuyButtonAutoClicker : BuyButton
+public class BuyButtonHero : BuyButton
 {
-    [SerializeField] private AutoClickerData m_AutoClicker;
+    [SerializeField] private HeroData m_HeroData;
 
-    [SerializeField] private Image m_AutoClickerImage;
-    [SerializeField] private TextMeshProUGUI m_AutoClickerName;
+    [SerializeField] private Image m_HeroImage;
+    [SerializeField] private TextMeshProUGUI m_HeroName;
     [SerializeField] private TextMeshProUGUI m_Cost;
     [SerializeField] private TextMeshProUGUI m_Level;
 
     public override void Awake()
     {
         base.Awake();
-        UIEvents.OnAutoClickersChanged += RefreshUI;
+        UIEvents.OnHerosChanged += RefreshUI;
     }
 
     public override void OnDestroy()
     {
         base.OnDestroy();
-        UIEvents.OnAutoClickersChanged -= RefreshUI;
+        UIEvents.OnHerosChanged -= RefreshUI;
     }
 
     private void Start()
@@ -34,15 +34,15 @@ public class BuyButtonAutoClicker : BuyButton
         if (CanAfford())
         {
             GameManager.Instance.Wallet.TakeGold(CalculateCost());
-            GameManager.Instance.AutoClickManager.AddClicker(m_AutoClicker, 1);
+            GameManager.Instance.HeroManager.AddHero(m_HeroData, 1);
             RefreshUI();
         }
     }
 
     void SetupUI()
     {
-        m_AutoClickerName.SetText($"{m_AutoClicker.Name}");
-        m_AutoClickerImage.sprite = m_AutoClicker.AutoClickerSprite;
+        m_HeroName.SetText($"{m_HeroData.Name}");
+        m_HeroImage.sprite = m_HeroData.Sprite;
         RefreshUI();
     }
 
@@ -51,10 +51,10 @@ public class BuyButtonAutoClicker : BuyButton
         base.RefreshUI();
         //m_AutoClickerName.SetText($"{m_AutoClicker.Name}");
         m_Cost.SetText( $"{CalculateCost()}" );
-        bool ownsThisType = GameManager.Instance.AutoClickManager.AutoClickers.ContainsKey(m_AutoClicker);
+        bool ownsThisType = GameManager.Instance.HeroManager.Heros.ContainsKey(m_HeroData);
         if (ownsThisType)
         {
-            m_Level.SetText($"Lvl.{GameManager.Instance.AutoClickManager.AutoClickers[m_AutoClicker]}");
+            m_Level.SetText($"Lvl.{GameManager.Instance.HeroManager.Heros[m_HeroData]}");
         }
         else
         {
@@ -64,13 +64,13 @@ public class BuyButtonAutoClicker : BuyButton
 
     private int CalculateCost()
     {
-        if (GameManager.Instance.AutoClickManager.AutoClickers.ContainsKey(m_AutoClicker))
+        if (GameManager.Instance.HeroManager.Heros.ContainsKey(m_HeroData))
         {
-            return Mathf.RoundToInt(m_AutoClicker.BaseCost * Mathf.Pow(m_AutoClicker.CostMultiplier, GameManager.Instance.AutoClickManager.AutoClickers[m_AutoClicker]));
+            return Mathf.RoundToInt(m_HeroData.BaseCost * Mathf.Pow(m_HeroData.CostMultiplier, GameManager.Instance.HeroManager.Heros[m_HeroData]));
         }
         else
         {
-            return m_AutoClicker.BaseCost;
+            return m_HeroData.BaseCost;
         }
     }
 

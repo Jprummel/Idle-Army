@@ -22,7 +22,8 @@ namespace StardustInteractive.Tools
             tree.DefaultMenuStyle.IconSize = 28.00f;
             tree.Config.DrawSearchToolbar = true;
 
-            tree.AddAllAssetsAtPath("AutoClickers", "Assets/Game/ScriptableObjects/AutoClickers", typeof(AutoClickerData), true).ForEach(this.AddDragHandles);
+            tree.AddAllAssetsAtPath("Heros", "Assets/Game/ScriptableObjects/Heros", typeof(HeroData), true).ForEach(this.AddDragHandles);
+            tree.AddAllAssetsAtPath("Upgrades", "Assets/Game/ScriptableObjects/Upgrades", typeof(UpgradeData), true).ForEach(this.AddDragHandles);
             tree.AddAllAssetsAtPath("Enemies", "Assets/Game/ScriptableObjects/Enemies", typeof(EnemyData), true).ForEach(this.AddDragHandles);
             tree.AddAllAssetsAtPath("Levels", "Assets/Game/ScriptableObjects/Levels", typeof(LevelData), true).ForEach(this.AddDragHandles);
 
@@ -30,7 +31,8 @@ namespace StardustInteractive.Tools
             tree.EnumerateTree().Where(x => x.Value as EnemyData).ForEach(AddDragHandles);
 
             // Add icons to objects that have them and need them in the editor.
-            tree.EnumerateTree().AddIcons<AutoClickerData>(x => x.AutoClickerSprite);
+            tree.EnumerateTree().AddIcons<HeroData>(x => x.Sprite);
+            tree.EnumerateTree().AddIcons<UpgradeData>(x => x.UpgradeIcon);
             tree.EnumerateTree().AddIcons<EnemyData>(x => x.EnemySprite);
 
             return tree;
@@ -54,9 +56,18 @@ namespace StardustInteractive.Tools
                     GUILayout.Label(selected.Name);
                 }
 
-                if (SirenixEditorGUI.ToolbarButton(new GUIContent("Create Autoclicker")))
+                if (SirenixEditorGUI.ToolbarButton(new GUIContent("Create Hero")))
                 {
-                    ScriptableObjectCreator.ShowDialog<AutoClickerData>("Assets/Game/ScriptableObjects/Enemies", obj =>
+                    ScriptableObjectCreator.ShowDialog<HeroData>("Assets/Game/ScriptableObjects/Heros", obj =>
+                    {
+                        obj.Setup();
+                        base.TrySelectMenuItemWithObject(obj); // Selects the newly created item in the editor
+                    });
+                }
+
+                if (SirenixEditorGUI.ToolbarButton(new GUIContent("Create Upgrade")))
+                {
+                    ScriptableObjectCreator.ShowDialog<UpgradeData>("Assets/Game/ScriptableObjects/Upgrades", obj =>
                     {
                         obj.Setup();
                         base.TrySelectMenuItemWithObject(obj); // Selects the newly created item in the editor

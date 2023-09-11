@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd1852514f101dc49b8b9ba53662bc39, type: 3}
-  m_Name: The Jailor
+  m_Name: Erik the Barbarian
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,14 +21,12 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  m_AutoClickerSprite: {fileID: 21300000, guid: 874398f1d8eacfd47b373e6d8a29c3f7,
-    type: 3}
-  m_AutoClickerType: 2
-  m_AutoClickerName: The Jailor
+  m_Sprite: {fileID: 21300000, guid: 61926852394e34b4dbfd17000b41eef8, type: 3}
+  m_Hero: 3
   m_Description: DMG Damage per SPEED seconds
-  m_FlavourText: 
-  m_BaseDamage: 0
+  m_FlavourText: Wild and unpredictable
+  m_BaseDamage: 100
   m_AttackSpeed: 1
-  m_AttackTimerID: GUARD_ATTACK
-  m_BaseCost: 750
+  m_AttackTimerID: ERIK_THE_BARBARIAN_ATTACK
+  m_BaseCost: 2000
   m_CostMultiplier: 1.7
