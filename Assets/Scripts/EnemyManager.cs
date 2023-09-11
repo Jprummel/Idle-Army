@@ -78,7 +78,7 @@ public class EnemyManager : ManagerBase, ISaveable
 
     }
 
-    public void Damage(int damage)
+    public void Damage(float damage)
     {
         m_EnemyCurrentHealth -= damage;
         UpdateHealthBar();

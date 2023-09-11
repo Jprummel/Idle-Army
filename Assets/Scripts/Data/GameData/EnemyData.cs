@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Enemy Data", menuName = "Idle Army/Enemies/Enemy", order = 0)]
-public class EnemyData : ScriptableObject
+public class EnemyData : GameData
 {
     [SerializeField] private string m_EnemyName;
     [SerializeField] private EnemyDifficulty m_Difficulty;

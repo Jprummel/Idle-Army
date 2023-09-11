@@ -6,14 +6,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "AutoClicker Manifest", menuName = "Idle Army/Manifests/AutoClicker Manifest", order = 0)]
 public class AutoClickerManifest : BaseManifestData
 {
-    [SerializeField] private List<AutoClicker> m_AllAutoClickers = new List<AutoClicker>();
+    [SerializeField] private List<AutoClickerData> m_AllAutoClickers = new List<AutoClickerData>();
 
-    public List<AutoClicker> AllAutoClickers => m_AllAutoClickers;
+    public List<AutoClickerData> AllAutoClickers => m_AllAutoClickers;
 
-    public AutoClicker GetAutoClickerByType(AutoClickerTypes type)
+    public AutoClickerData GetAutoClickerByType(AutoClickerTypes type)
     {
-        AutoClicker autoClicker = null;
-        foreach (AutoClicker clicker in m_AllAutoClickers)
+        AutoClickerData autoClicker = null;
+        foreach (AutoClickerData clicker in m_AllAutoClickers)
         {
             if(clicker.AutoClickerType == type)
             {
@@ -28,7 +28,7 @@ public class AutoClickerManifest : BaseManifestData
     {
         base.GatherData();
         m_AllAutoClickers.Clear();
-        foreach (var autoClicker in AssetDatabaseUtils.FindAssetsByType<AutoClicker>())
+        foreach (var autoClicker in AssetDatabaseUtils.FindAssetsByType<AutoClickerData>())
         {
             m_AllAutoClickers.Add(autoClicker);
         }

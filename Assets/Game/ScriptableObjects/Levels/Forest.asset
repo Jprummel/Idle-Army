@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64375f5b6db494c40b3aac267f81a44d, type: 3}
+  m_Name: Forest
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  m_LevelName: Forest
+  m_Background: {fileID: 21300000, guid: ccdff781cac1de84698c9bf4e9ac657d, type: 3}
+  m_Enemies:
+  - {fileID: 11400000, guid: 34d7507f9deb3bd4ca7e0fa453a1a6e8, type: 2}
+  - {fileID: 11400000, guid: 175c9524bdeb0c24993110a73c7518db, type: 2}
+  - {fileID: 11400000, guid: 3995dd93038cc0749a1bc1393eed8964, type: 2}
+  m_Boss: {fileID: 11400000, guid: b4ae4d32f767aba4b934f02c8f6c3e0b, type: 2}

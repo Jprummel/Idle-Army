@@ -1,10 +1,10 @@
 public enum AutoClickerTypes 
 { 
     None = 0,
-    Villager = 1,
-    Squire = 2,
+    Militia = 1,
+    Guard = 2,
     Mercenary = 3,
-    Ranger = 4,
-    Knight = 5,
-    Hero = 6,
+    Soldier = 4,
+    Ranger = 5,
+    Knight = 6,
 }

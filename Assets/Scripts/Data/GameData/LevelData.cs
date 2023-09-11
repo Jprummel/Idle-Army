@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Level Data", menuName = "Idle Army/Level Data", order = 0)]
-public class LevelData : SerializedScriptableObject
+public class LevelData : GameData
 {
     [SerializeField] private string m_LevelName;
     [SerializeField] private Sprite m_Background;

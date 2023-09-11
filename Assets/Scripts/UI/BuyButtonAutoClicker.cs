@@ -1,13 +1,15 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BuyButtonAutoClicker : BuyButton
 {
-    [SerializeField] private AutoClicker m_AutoClicker;
+    [SerializeField] private AutoClickerData m_AutoClicker;
 
+    [SerializeField] private Image m_AutoClickerImage;
     [SerializeField] private TextMeshProUGUI m_AutoClickerName;
     [SerializeField] private TextMeshProUGUI m_Cost;
-    [SerializeField] private TextMeshProUGUI m_Owned;
+    [SerializeField] private TextMeshProUGUI m_Level;
 
     public override void Awake()
     {
@@ -23,7 +25,7 @@ public class BuyButtonAutoClicker : BuyButton
 
     private void Start()
     {
-        RefreshUI();
+        SetupUI();
     }
 
     public override void OnBuy()
@@ -37,19 +39,26 @@ public class BuyButtonAutoClicker : BuyButton
         }
     }
 
+    void SetupUI()
+    {
+        m_AutoClickerName.SetText($"{m_AutoClicker.Name}");
+        m_AutoClickerImage.sprite = m_AutoClicker.AutoClickerSprite;
+        RefreshUI();
+    }
+
     public override void RefreshUI()
     {
         base.RefreshUI();
-        m_AutoClickerName.SetText($"{m_AutoClicker.Name}");
+        //m_AutoClickerName.SetText($"{m_AutoClicker.Name}");
         m_Cost.SetText( $"{CalculateCost()}" );
         bool ownsThisType = GameManager.Instance.AutoClickManager.AutoClickers.ContainsKey(m_AutoClicker);
         if (ownsThisType)
         {
-            m_Owned.SetText($"{GameManager.Instance.AutoClickManager.AutoClickers[m_AutoClicker]}");
+            m_Level.SetText($"Lvl.{GameManager.Instance.AutoClickManager.AutoClickers[m_AutoClicker]}");
         }
         else
         {
-            m_Owned.SetText("0");
+            m_Level.SetText("Not unlocked");
         }
     }
 

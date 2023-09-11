@@ -7,12 +7,14 @@ using UnityEngine;
 
 public class AutoclickerManager : ManagerBase, ISaveable
 {
-    [ShowInInspector, ReadOnly] private Dictionary<AutoClicker, int> m_AutoClickers = new Dictionary<AutoClicker, int>();
+    [ShowInInspector, ReadOnly] private Dictionary<AutoClickerData, int> m_AutoClickers = new Dictionary<AutoClickerData, int>();
     [SerializeField] private AutoClickerManifest m_autoClickerManifest;
 
-    public Dictionary<AutoClicker, int> AutoClickers => m_AutoClickers;
+    public Dictionary<AutoClickerData, int> AutoClickers => m_AutoClickers;
 
-    private event Action<AutoClicker> OnClickerAdded;
+    private event Action<AutoClickerData> OnClickerAdded;
+
+    private float m_TotalClickerDamage;
 
     public override void Initialize()
     {
@@ -26,7 +28,7 @@ public class AutoclickerManager : ManagerBase, ISaveable
         base.DeInitialize();
     }
 
-    public void AddClicker(AutoClicker autoClicker, int amount)
+    public void AddClicker(AutoClickerData autoClicker, int amount)
     {
         if (m_AutoClickers.ContainsKey(autoClicker))
         {
@@ -39,7 +41,18 @@ public class AutoclickerManager : ManagerBase, ISaveable
         TimerManager.AddTimer(autoClicker.AttackTimerID, autoClicker.AttackSpeed, () => { OnClickerAdded(autoClicker); }, repeats: -1, shouldReset: false);
     }
 
-    private int CalculateDamage(AutoClicker autoClicker)
+    private void CalculateDamage()
+    {
+        int damage = 0;
+        foreach (AutoClickerData autoClicker in m_AutoClickers.Keys)
+        {
+            damage += Mathf.RoundToInt(m_autoClickerManifest.GetAutoClickerByType(autoClicker.AutoClickerType).Damage * m_AutoClickers[autoClicker]);
+        }
+        m_TotalClickerDamage = damage;
+        Debug.Log($"Total damage : {m_TotalClickerDamage}");
+    }
+
+    private int CalculateDamage(AutoClickerData autoClicker)
     {
         int damage = 0;
         if (m_AutoClickers.ContainsKey(autoClicker))
@@ -49,7 +62,7 @@ public class AutoclickerManager : ManagerBase, ISaveable
         return damage;
     }
 
-    private void DealDamage(AutoClicker autoClicker)
+    private void DealDamage(AutoClickerData autoClicker)
     {
         GameManager.Instance.EnemyManager.Damage(CalculateDamage(autoClicker));
     }
@@ -63,10 +76,10 @@ public class AutoclickerManager : ManagerBase, ISaveable
     {
         if (ES3.KeyExists($"AutoClickers_{uniqueIdentifier}", saveFile))
         {
-            m_AutoClickers = ES3.Load<Dictionary<AutoClicker, int>>($"AutoClickers_{uniqueIdentifier}", saveFile);
+            m_AutoClickers = ES3.Load<Dictionary<AutoClickerData, int>>($"AutoClickers_{uniqueIdentifier}", saveFile);
         }
 
-        foreach (AutoClicker autoClicker in m_AutoClickers.Keys)
+        foreach (AutoClickerData autoClicker in m_AutoClickers.Keys)
         {
             TimerManager.AddTimer(autoClicker.AttackTimerID, autoClicker.AttackSpeed, () => { OnClickerAdded(autoClicker); }, repeats: -1, shouldReset: false);
         }
