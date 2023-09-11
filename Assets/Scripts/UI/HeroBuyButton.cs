@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BuyButtonHero : BuyButton
+public class HeroBuyButton : BuyButton
 {
     [SerializeField] private HeroData m_HeroData;
 
@@ -35,6 +35,7 @@ public class BuyButtonHero : BuyButton
         {
             GameManager.Instance.Wallet.TakeGold(CalculateCost());
             GameManager.Instance.HeroManager.AddHero(m_HeroData, 1);
+            GameEvents.HerosChanged();
             RefreshUI();
         }
     }
@@ -44,6 +45,12 @@ public class BuyButtonHero : BuyButton
         m_HeroName.SetText($"{m_HeroData.Name}");
         m_HeroImage.sprite = m_HeroData.Sprite;
         RefreshUI();
+    }
+
+    public void Spawn(HeroData heroData)
+    {
+        m_HeroData = heroData;
+        SetupUI();
     }
 
     public override void RefreshUI()

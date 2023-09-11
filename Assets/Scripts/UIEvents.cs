@@ -30,7 +30,7 @@ public class UIEvents : MonoBehaviour
         OnProgressLevel?.Invoke();
     }
 
-    public static void AutoClickersChanged()
+    public static void HerosChanged()
     {
         OnHerosChanged?.Invoke();
     }

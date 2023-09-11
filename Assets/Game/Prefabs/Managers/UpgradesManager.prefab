@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4652450040477484221}
   - component: {fileID: 4652450040477484220}
+  - component: {fileID: 4532601146129238693}
   m_Layer: 0
   m_Name: UpgradesManager
   m_TagString: Untagged
@@ -53,3 +54,16 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+--- !u!114 &4532601146129238693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4652450040477484222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ea9374b509b70f4bba37e4a2ca8cf00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UniqueIdentifier: 1defa61c-0c73-4169-821c-2c9ca177404c

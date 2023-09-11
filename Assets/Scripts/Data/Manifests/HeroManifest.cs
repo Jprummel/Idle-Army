@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -31,6 +32,7 @@ public class HeroManifest : BaseManifestData
         foreach (var hero in AssetDatabaseUtils.FindAssetsByType<HeroData>())
         {
             m_AllHeroes.Add(hero);
+            m_AllHeroes = m_AllHeroes.OrderBy(heroData => (int)heroData.Hero).ToList();
         }
     }
 }

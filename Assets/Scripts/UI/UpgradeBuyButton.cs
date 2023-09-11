@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static UnityEditor.PlayerSettings;
 
-public class BuyButtonUpgrade : BuyButton
+public class UpgradeBuyButton : BuyButton
 {
     [SerializeField] private UpgradeData m_UpgradeData;
     [SerializeField] private Image m_UpgradeIcon;

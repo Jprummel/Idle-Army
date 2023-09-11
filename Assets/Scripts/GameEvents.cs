@@ -7,6 +7,7 @@ public class GameEvents : MonoBehaviour
     public static event Action<int> OnGoldUpdated;
     public static event Action OnProgressStage;
     public static event Action OnProgressLevel;
+    public static event Action OnHerosChanged;
 
     public static void GameManagerInitialized()
     {
@@ -26,5 +27,10 @@ public class GameEvents : MonoBehaviour
     public static void ProgressLevel()
     {
         OnProgressLevel?.Invoke();
+    }
+
+    public static void HerosChanged()
+    {
+        OnHerosChanged?.Invoke();
     }
 }

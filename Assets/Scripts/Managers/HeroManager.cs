@@ -83,7 +83,8 @@ public class HeroManager : ManagerBase, ISaveable
         {
             TimerManager.AddTimer(autoClicker.AttackTimerID, autoClicker.AttackSpeed, () => { OnHeroAdded(autoClicker); }, repeats: -1, shouldReset: false);
         }
-        UIEvents.AutoClickersChanged();
+        UIEvents.HerosChanged();
+        GameEvents.HerosChanged();
     }
 
     public void ResetData(string uniqueIdentifier, string saveFile)
