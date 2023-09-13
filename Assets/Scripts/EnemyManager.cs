@@ -113,7 +113,7 @@ public class EnemyManager : ManagerBase, ISaveable
 
     public void OnEnemyKilled()
     {
-        GameManager.Instance.Wallet.AddGold(m_GoldReward);
+        GameManager.Instance.GoldManager.AddGold(m_GoldReward);
         GameEvents.ProgressStage();
 
         if (GameManager.Instance.ProgressionManager.IsAtFinalStage)
@@ -201,6 +201,6 @@ public class EnemyManager : ManagerBase, ISaveable
 
     public void ResetData(string uniqueIdentifier, string saveFile)
     {
-        
+        SpawnNewEnemy();
     }
 }

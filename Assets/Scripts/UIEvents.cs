@@ -7,6 +7,7 @@ public class UIEvents : MonoBehaviour
 {
     public static event Action<int> OnGoldUpdated;
     public static event Action OnHerosChanged;
+    public static event Action OnUpgradeUnlocked;
     public static event Action<EnemyData> OnEnemySpawned;
     public static event Action OnProgressStage;
     public static event Action OnProgressLevel;
@@ -33,6 +34,11 @@ public class UIEvents : MonoBehaviour
     public static void HerosChanged()
     {
         OnHerosChanged?.Invoke();
+    }
+
+    public static void UpgradeUnlocked()
+    {
+        OnUpgradeUnlocked?.Invoke();
     }
 
 }

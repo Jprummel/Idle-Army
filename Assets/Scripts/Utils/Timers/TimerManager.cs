@@ -140,6 +140,15 @@ namespace StardustInteractive.Tools
             }
         }
 
+        public static void DisposeOfAllTimers()
+        {
+            for (int i = 0; i < m_Timers.Count; i++)
+            {
+                Destroy(m_Timers[i]);
+                m_Timers.Clear();
+            }
+        }
+
         /// <summary>
         /// Removes a timer that is currently running, use this if there can be multiple instances of the same timer
         /// </summary>

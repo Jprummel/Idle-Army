@@ -28,6 +28,7 @@ public class BuyButton : MonoBehaviour
 
     }
 
+#if UNITY_EDITOR
     public virtual void OnValidate()
     {
         if(m_button == null)
@@ -35,4 +36,5 @@ public class BuyButton : MonoBehaviour
             m_button = GetComponent<Button>();
         }
     }
+#endif
 }

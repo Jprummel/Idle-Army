@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     public HeroManager HeroManager => m_HeroManager;
     public UpgradesManager UpgradesManager => m_UpgradeManager;
     public EnemyManager EnemyManager => m_EnemyManager;
-    public GoldManager Wallet => m_GoldManager;
+    public GoldManager GoldManager => m_GoldManager;
     public ProgressionManager ProgressionManager => m_ProgressionManager;
     public SavingSystem SaveManager => m_SaveManager;
 

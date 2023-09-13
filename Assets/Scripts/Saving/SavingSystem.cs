@@ -15,6 +15,11 @@ namespace StardustInteractive.Saving
     /// </summary>
     public class SavingSystem : MonoBehaviour
     {
+        private void Start()
+        {
+            Load("Idle_Army_Save");
+        }
+
         #region Inspector Fields
         [SerializeField] private LSS_Manager m_LoadingScreenManager;
         #endregion
@@ -66,6 +71,15 @@ namespace StardustInteractive.Saving
         public void Delete(string saveFile)
         {
             File.Delete(GetPathFromSaveFile(saveFile));
+        }
+
+        public void ResetAllData(string saveFile)
+        {
+            foreach (SaveableEntity saveable in FindObjectsOfType<SaveableEntity>())
+            {
+                string saveFileWithExtension = $"{saveFile}.es3";
+                saveable.Reset(saveFileWithExtension);
+            }
         }
 
         public void Load(string saveFile)

@@ -22,9 +22,12 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   m_UpgradeName: Adventurer's Training
-  m_UpgradeDescription: Training hard to increase your damage by 100%
+  m_UpgradeDescription: Increases The Adventures damage by 100% of his base damage
   m_UpgradeIcon: {fileID: 21300000, guid: ecfb93eff99e246be828873e695d4b72, type: 3}
   m_Hero: 1
   m_UpgradeTypes: 0
-  m_Cost: 5
+  m_UnlockRequirements:
+  - m_Hero: 1
+    m_RequiredLevel: 1
+  m_Cost: 100
   m_Multiplier: 1

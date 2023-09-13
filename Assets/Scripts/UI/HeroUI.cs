@@ -1,26 +1,32 @@
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HeroBuyButton : BuyButton
+public class HeroUI : BuyButton
 {
-    [SerializeField] private HeroData m_HeroData;
+    [TabGroup("Tabs", "Data")][SerializeField] private HeroData m_HeroData;
 
-    [SerializeField] private Image m_HeroImage;
-    [SerializeField] private TextMeshProUGUI m_HeroName;
-    [SerializeField] private TextMeshProUGUI m_Cost;
-    [SerializeField] private TextMeshProUGUI m_Level;
+    [TabGroup("Tabs", "UI References")][SerializeField] private Image m_HeroImage;
+    [TabGroup("Tabs", "UI References")][SerializeField] private TextMeshProUGUI m_HeroName;
+    [TabGroup("Tabs", "UI References")][SerializeField] private TextMeshProUGUI m_Cost;
+    [TabGroup("Tabs", "UI References")][SerializeField] private TextMeshProUGUI m_Level;
+
+    [TabGroup("Tabs", "UI References")][SerializeField] private CanvasGroup m_StatsCanvasGroup;
+    [TabGroup("Tabs", "UI References")] [SerializeField] private TextMeshProUGUI m_DamageText;
 
     public override void Awake()
     {
         base.Awake();
         UIEvents.OnHerosChanged += RefreshUI;
+        UIEvents.OnUpgradeUnlocked += RefreshUI;
     }
 
     public override void OnDestroy()
     {
         base.OnDestroy();
         UIEvents.OnHerosChanged -= RefreshUI;
+        UIEvents.OnUpgradeUnlocked -= RefreshUI;
     }
 
     private void Start()
@@ -33,9 +39,10 @@ public class HeroBuyButton : BuyButton
         base.OnBuy();
         if (CanAfford())
         {
-            GameManager.Instance.Wallet.TakeGold(CalculateCost());
+            GameManager.Instance.GoldManager.TakeGold(CalculateCost());
             GameManager.Instance.HeroManager.AddHero(m_HeroData, 1);
             GameEvents.HerosChanged();
+            UIEvents.HerosChanged();
             RefreshUI();
         }
     }
@@ -62,9 +69,12 @@ public class HeroBuyButton : BuyButton
         if (ownsThisType)
         {
             m_Level.SetText($"Lvl.{GameManager.Instance.HeroManager.Heros[m_HeroData]}");
+            m_StatsCanvasGroup.alpha = 1;
+            m_DamageText.SetText($"{GameManager.Instance.HeroManager.CalculateDamage(m_HeroData)}");
         }
         else
         {
+            m_StatsCanvasGroup.alpha = 0;
             m_Level.SetText("Not unlocked");
         }
     }
@@ -83,6 +93,6 @@ public class HeroBuyButton : BuyButton
 
     private bool CanAfford()
     {
-        return GameManager.Instance.Wallet.Gold >= CalculateCost();
+        return GameManager.Instance.GoldManager.Gold >= CalculateCost();
     }
 }

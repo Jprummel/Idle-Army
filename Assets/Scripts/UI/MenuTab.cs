@@ -12,7 +12,7 @@ public class MenuTab
     public event Action OnHide;
 
     [SerializeField] private Button m_TabButton;
-    [SerializeField] private GameObject m_TabContent;
+    [SerializeField] private TabContentContainer m_TabContent;
 
     public Button TabButton => m_TabButton;
 
@@ -20,13 +20,13 @@ public class MenuTab
     public void Show()
     {
         OnShow?.Invoke();
-        m_TabContent.SetActive(true);
+        m_TabContent.Content.SetActive(true);
     }
     [ButtonGroup("Visibility")]
     public void Hide() 
     {
         OnHide?.Invoke();
-        m_TabContent.SetActive(false);
+        m_TabContent.Content.SetActive(false);
     }
 
     public void RegisterEvents()

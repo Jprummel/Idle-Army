@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class HeroShopUI : MonoBehaviour
+public class HeroShopUI : TabContentContainer
 {
     [SerializeField] private HeroManifest m_HeroManifest;
-    [SerializeField] private HeroBuyButton m_HeroBuyButtonPrefab;
+    [SerializeField] private HeroUI m_HeroBuyButtonPrefab;
     [SerializeField] private Transform m_ButtonSpawnParent;
     private int m_HighestUnlockedHeroIndex = -1;
 
@@ -38,7 +36,7 @@ public class HeroShopUI : MonoBehaviour
             m_HighestUnlockedHeroIndex = highestUnlockedHeroIndex;
             if (m_HighestUnlockedHeroIndex <= m_HeroManifest.AllHeroes.Count - 1)
             {
-                HeroBuyButton newBuyButton = Instantiate(m_HeroBuyButtonPrefab, m_ButtonSpawnParent);
+                HeroUI newBuyButton = Instantiate(m_HeroBuyButtonPrefab, m_ButtonSpawnParent);
                 newBuyButton.Spawn(m_HeroManifest.AllHeroes[m_HighestUnlockedHeroIndex + 1]);
             }
         }

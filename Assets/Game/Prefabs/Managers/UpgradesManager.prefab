@@ -54,6 +54,8 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  m_HeroManifest: {fileID: 11400000, guid: 238f055143af6644a898d0bdec2717c8, type: 2}
+  m_UpgradeManifest: {fileID: 11400000, guid: 382b55c92b004e4419a710a24a6b6e2a, type: 2}
 --- !u!114 &4532601146129238693
 MonoBehaviour:
   m_ObjectHideFlags: 0

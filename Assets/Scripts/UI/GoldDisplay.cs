@@ -14,7 +14,7 @@ public class GoldDisplay : BaseObject
     public override void PostInitialize()
     {
         base.PostInitialize();
-        UpdateDisplay(GameManager.Instance.Wallet.Gold);
+        UpdateDisplay(GameManager.Instance.GoldManager.Gold);
     }
 
     public override void DeInitialize()

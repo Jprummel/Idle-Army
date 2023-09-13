@@ -47,6 +47,14 @@ namespace StardustInteractive.Saving
                 saveable.Load(m_UniqueIdentifier, saveFile);
             }
         }
+
+        public void Reset(string saveFile)
+        {
+            foreach (ISaveable saveable in GetComponents<ISaveable>())
+            {
+                saveable.ResetData(m_UniqueIdentifier, saveFile);
+            }
+        }
         // PRIVATE
 
 #if UNITY_EDITOR

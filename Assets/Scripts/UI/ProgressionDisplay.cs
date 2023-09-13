@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -28,7 +26,6 @@ public class ProgressionDisplay : MonoBehaviour
 
     private void UpdateLevelText()
     {
-        Debug.Log($"Updating level text");
         m_LevelText.SetText($"{GameManager.Instance.ProgressionManager.CurrentLevelData().LevelName} Lvl: {GameManager.Instance.ProgressionManager.CurrentLevel}");
     }
 

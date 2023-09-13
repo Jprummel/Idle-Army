@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59728e77e7ae83546888419b32275c4a, type: 3}
-  m_Name: Hero Manifest
+  m_Script: {fileID: 11500000, guid: 5bf5127bd24f44149ab3cc5a4f0a3299, type: 3}
+  m_Name: The_Jailor_Damage_Upgrade_1
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,7 +21,13 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  m_AllHeroes:
-  - {fileID: 11400000, guid: 03db74a252619a34586db68293d20f4f, type: 2}
-  - {fileID: 11400000, guid: 1f22626d11c919d4f894f0b6333eb4d4, type: 2}
-  - {fileID: 11400000, guid: f0a876b8810859243a043b4712b904fb, type: 2}
+  m_UpgradeName: Brute Force
+  m_UpgradeDescription: Increases The Jailor's damage by 100% of his base damage
+  m_UpgradeIcon: {fileID: 21300000, guid: 2c5d235e94b784ef7a63a1a2b4854877, type: 3}
+  m_Hero: 2
+  m_UpgradeTypes: 0
+  m_UnlockRequirements:
+  - m_Hero: 2
+    m_RequiredLevel: 1
+  m_Cost: 3000
+  m_Multiplier: 1

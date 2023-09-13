@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59728e77e7ae83546888419b32275c4a, type: 3}
-  m_Name: Hero Manifest
+  m_Script: {fileID: 11500000, guid: 931e53b3641b0ba4291dac51088cd61a, type: 3}
+  m_Name: Upgrade Manifest
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,7 +21,8 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  m_AllHeroes:
-  - {fileID: 11400000, guid: 03db74a252619a34586db68293d20f4f, type: 2}
-  - {fileID: 11400000, guid: 1f22626d11c919d4f894f0b6333eb4d4, type: 2}
-  - {fileID: 11400000, guid: f0a876b8810859243a043b4712b904fb, type: 2}
+  m_AllUpgrades:
+  - {fileID: 11400000, guid: a1ddddf80f4f05043b9486a13fde21ae, type: 2}
+  - {fileID: 11400000, guid: fdfd312972b6f654e936c3cf32810cba, type: 2}
+  - {fileID: 11400000, guid: 6d3ee43f2d8fc8b4fadcc8c72f55c007, type: 2}
+  - {fileID: 11400000, guid: eb2959def31e0784bb6091bbf9623118, type: 2}

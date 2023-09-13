@@ -6,20 +6,73 @@ using UnityEngine;
 
 public class UpgradesManager : ManagerBase, ISaveable
 {
-    private Dictionary<Heros, List<UpgradeData>> m_UnlockedUpgrades = new Dictionary<Heros, List<UpgradeData>>();
+    [SerializeField] private HeroManifest m_HeroManifest;
+    [SerializeField] private UpgradeManifest m_UpgradeManifest;
+    [ShowInInspector,ReadOnly]private List<UpgradeData> m_LockedUpgrades =  new List<UpgradeData>();
+    [ShowInInspector, ReadOnly] private List<UpgradeData> m_UnlockedUpgrades = new List<UpgradeData>();
+    [ShowInInspector, ReadOnly] private Dictionary<Heros, List<UpgradeData>> m_OwnedUpgrades = new Dictionary<Heros, List<UpgradeData>>();
 
-    public Dictionary<Heros, List <UpgradeData>> UnlockedUpgrades => m_UnlockedUpgrades;
+    public List <UpgradeData> UnlockedUpgrades => m_UnlockedUpgrades;
+    public Dictionary<Heros, List<UpgradeData>> OwnedUpgrades => m_OwnedUpgrades;
+    void Awake()
+    {
+        m_LockedUpgrades = m_UpgradeManifest.AllUpgrades;
+        GameEvents.OnHerosChanged += CheckForUpgradeUnlock;
+    }
+
+    private void CheckForUpgradeUnlock()
+    {
+        for (int i = 0; i < m_LockedUpgrades.Count; i++)
+        {
+            if (AreUnlockRequirementsMet(m_LockedUpgrades[i]))
+            {
+                UnlockUpgrade(m_LockedUpgrades[i]);
+            }
+        }
+    }
+
+    private bool AreUnlockRequirementsMet(UpgradeData upgrade)
+    {
+        HeroData hero = null;
+        foreach (UnlockCondition condition in upgrade.UnlockRequirements)
+        {
+            hero = m_HeroManifest.GetHero(condition.Hero);
+            if (!GameManager.Instance.HeroManager.Heros.ContainsKey(hero))
+            {
+                return false;
+            }
+
+            if (GameManager.Instance.HeroManager.Heros[hero] < condition.RequiredLevel)
+            {
+                return false;
+            }
+            
+        }
+
+        return true;
+    }
 
     public void UnlockUpgrade(UpgradeData upgradeToUnlock)
     {
-        if (m_UnlockedUpgrades.ContainsKey(upgradeToUnlock.Hero))
+        if (m_UnlockedUpgrades.Contains(upgradeToUnlock))
         {
-            m_UnlockedUpgrades[upgradeToUnlock.Hero].Add(upgradeToUnlock);
+            return;
+        }
+        m_UnlockedUpgrades.Add(upgradeToUnlock);
+        m_LockedUpgrades.Remove(upgradeToUnlock);
+    }
+
+    public void ObtainUpgrade(UpgradeData upgradeToUnlock)
+    {
+        if (m_OwnedUpgrades.ContainsKey(upgradeToUnlock.Hero))
+        {
+            m_OwnedUpgrades[upgradeToUnlock.Hero].Add(upgradeToUnlock);
         }
         else
         {
-            m_UnlockedUpgrades.Add(upgradeToUnlock.Hero, new List<UpgradeData> {  upgradeToUnlock });
+            m_OwnedUpgrades.Add(upgradeToUnlock.Hero, new List<UpgradeData> { upgradeToUnlock });
         }
+        m_UnlockedUpgrades.Remove(upgradeToUnlock);
     }
 
     public void LockUpgrade(Heros hero, UpgradeData upgradeToLock)
@@ -35,9 +88,9 @@ public class UpgradesManager : ManagerBase, ISaveable
     public float GetTotalUpgradeBonus(Heros hero, UpgradeTypes upgradeType)
     {
         float totalBonus = 0;
-        if (m_UnlockedUpgrades.ContainsKey(hero))
+        if (m_OwnedUpgrades.ContainsKey(hero))
         {
-            foreach (UpgradeData upgrade in m_UnlockedUpgrades[hero])
+            foreach (UpgradeData upgrade in m_OwnedUpgrades[hero])
             {
                 if(upgrade.UpgradeType == upgradeType)
                 {
@@ -48,33 +101,28 @@ public class UpgradesManager : ManagerBase, ISaveable
         return totalBonus;
     }
 
-    public bool IsUpgradeUnlocked(UpgradeData upgrade)
-    {
-        bool isUnlocked = false;
-        foreach (Heros autoClicker in m_UnlockedUpgrades.Keys)
-        {
-            foreach (UpgradeData upgradeData in m_UnlockedUpgrades[autoClicker])
-            {
-                if(upgrade == upgradeData)
-                {
-                    isUnlocked = true;
-                }
-            }
-        }
-        return isUnlocked;
-    }
-
     public void Save(string uniqueIdentifier, string saveFile)
     {
         ES3.Save($"UnlockedUpgrades_{uniqueIdentifier}", m_UnlockedUpgrades, saveFile);
+        ES3.Save($"OwnedUpgrades_{uniqueIdentifier}", m_OwnedUpgrades, saveFile);
     }
 
     public void Load(string uniqueIdentifier, string saveFile)
     {
+        m_LockedUpgrades = m_UpgradeManifest.AllUpgrades;
+
         if (ES3.KeyExists($"UnlockedUpgrades_{uniqueIdentifier}", saveFile))
         {
-            m_UnlockedUpgrades = ES3.Load<Dictionary<Heros, List<UpgradeData>>>($"UnlockedUpgrades_{uniqueIdentifier}", saveFile);
+            m_UnlockedUpgrades = ES3.Load<List<UpgradeData>>($"UnlockedUpgrades_{uniqueIdentifier}", saveFile);
         }
+
+        if (ES3.KeyExists($"OwnedUpgrades_{uniqueIdentifier}", saveFile))
+        {
+            m_OwnedUpgrades = ES3.Load<Dictionary<Heros,List<UpgradeData>>>($"OwnedUpgrades_{uniqueIdentifier}", saveFile);
+        }
+
+        GameEvents.UpgradeUnlocked();
+        UIEvents.UpgradeUnlocked();
     }
 
     public void ResetData(string uniqueIdentifier, string saveFile)

@@ -41,18 +41,7 @@ public class HeroManager : ManagerBase, ISaveable
         TimerManager.AddTimer(autoClicker.AttackTimerID, autoClicker.AttackSpeed, () => { OnHeroAdded(autoClicker); }, repeats: -1, shouldReset: false);
     }
 
-    private void CalculateDamage()
-    {
-        int damage = 0;
-        foreach (HeroData autoClicker in m_Heros.Keys)
-        {
-            damage += Mathf.RoundToInt(m_HeroManifest.GetHero(autoClicker.Hero).Damage * m_Heros[autoClicker]);
-        }
-        m_TotalHeroDamage = damage;
-        Debug.Log($"Total damage : {m_TotalHeroDamage}");
-    }
-
-    private int CalculateDamage(HeroData hero)
+    public int CalculateDamage(HeroData hero)
     {
         int damage = 0;
         if (m_Heros.ContainsKey(hero))

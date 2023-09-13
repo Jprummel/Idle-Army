@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class UpgradeData : Unlockable
     [SerializeField] private Sprite m_UpgradeIcon;
     [SerializeField] private Heros m_Hero;
     [SerializeField] private UpgradeTypes m_UpgradeTypes;
-    [SerializeField] private int m_RequiredLevel;
+    [SerializeField] private List<UnlockCondition> m_UnlockRequirements = new List<UnlockCondition>();
     [SerializeField] private int m_Cost;
     [Tooltip("Every 1 equals 100% so 1.5 would be a 150% modifier")]
     [SerializeField] private float m_Multiplier;
@@ -19,7 +20,7 @@ public class UpgradeData : Unlockable
     public Sprite UpgradeIcon => m_UpgradeIcon;
     public Heros Hero => m_Hero;
     public UpgradeTypes UpgradeType => m_UpgradeTypes;
-    public int RequiredLevel => m_RequiredLevel;
+    public List<UnlockCondition> UnlockRequirements => m_UnlockRequirements;
     public int Cost => m_Cost;
     public float Multiplier => m_Multiplier;
 }
