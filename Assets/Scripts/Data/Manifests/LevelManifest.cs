@@ -14,6 +14,7 @@ public class LevelManifest : BaseManifestData
         return m_AllLevels[levelIndex];
     }
 
+#if UNITY_EDITOR
     public override void GatherData()
     {
         base.GatherData();
@@ -26,4 +27,5 @@ public class LevelManifest : BaseManifestData
             }
         }
     }
+#endif
 }

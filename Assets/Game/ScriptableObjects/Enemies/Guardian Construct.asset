@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64375f5b6db494c40b3aac267f81a44d, type: 3}
-  m_Name: Desert
+  m_Script: {fileID: 11500000, guid: a18fdb40d5eae3545a8d0771f43016a6, type: 3}
+  m_Name: Guardian Construct
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 0
@@ -21,10 +21,10 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  m_LevelName: Desert
-  m_Background: {fileID: 21300000, guid: c5df33fe09e132146b52644f04b3c298, type: 3}
-  m_Enemies:
-  - {fileID: 11400000, guid: c0b676b060211a64283ecf3a2772bbdc, type: 2}
-  - {fileID: 11400000, guid: 0dfb155d92d68464eaffeae7b11b2c57, type: 2}
-  - {fileID: 11400000, guid: 6eb649369a071af4c9b634597411edc4, type: 2}
-  m_Boss: {fileID: 0}
+  m_EnemyName: Guardian Construct
+  m_Difficulty: 3
+  m_EnemySprite: {fileID: 21300000, guid: 9dba53ce58d3faa4da1bebcd9c3034ad, type: 3}
+  m_BaseMaxHP: 240
+  m_BaseGoldReward: 100
+  m_IdleAnim: {fileID: 0}
+  m_DamageAnim: {fileID: 0}

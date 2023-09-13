@@ -9,6 +9,7 @@ public class UpgradeManifest : BaseManifestData
     
     public List<UpgradeData> AllUpgrades => m_AllUpgrades;
 
+#if UNITY_EDITOR
     public override void GatherData()
     {
         base.GatherData();
@@ -18,4 +19,5 @@ public class UpgradeManifest : BaseManifestData
             m_AllUpgrades.Add(upgrade);
         }
     }
+#endif
 }

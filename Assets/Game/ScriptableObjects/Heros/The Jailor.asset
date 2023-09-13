@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: The Jailor
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
+    SerializedFormat: 0
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -25,7 +25,7 @@ MonoBehaviour:
   m_Hero: 2
   m_Description: DMG Damage per SPEED seconds
   m_FlavourText: 
-  m_BaseDamage: 0
+  m_BaseDamage: 10
   m_AttackSpeed: 1
   m_AttackTimerID: THE_JAILOR_ATTACK
   m_BaseCost: 750

@@ -15,9 +15,14 @@ namespace StardustInteractive.Saving
     /// </summary>
     public class SavingSystem : MonoBehaviour
     {
+        [SerializeField] private string m_DefaultSaveName;
+
         private void Start()
         {
             Load("Idle_Army_Save");
+
+
+            Application.quitting += () => Save("Idle_Army_Save");
         }
 
         #region Inspector Fields
@@ -105,6 +110,16 @@ namespace StardustInteractive.Saving
                     yield return Path.GetFileNameWithoutExtension(path);
                 }
             }
+        }
+
+        public static void AutoSave(string saveFile)
+        {
+            string saveFileWithExtension = $"{saveFile}.es3";
+            foreach (SaveableEntity saveable in FindObjectsOfType<SaveableEntity>())
+            {
+                saveable.Save(saveFileWithExtension);
+            }
+            ES3.Save("LastSceneBuildIndex", SceneManager.GetActiveScene().buildIndex, saveFileWithExtension);
         }
 
         // PRIVATE

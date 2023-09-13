@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Castle
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
+    SerializedFormat: 0
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -24,6 +24,7 @@ MonoBehaviour:
   m_LevelName: Castle
   m_Background: {fileID: 21300000, guid: 4b93e5db154d4374b89d9f4193aa0fe9, type: 3}
   m_Enemies:
-  - {fileID: 11400000, guid: c0b676b060211a64283ecf3a2772bbdc, type: 2}
-  - {fileID: 11400000, guid: b4ae4d32f767aba4b934f02c8f6c3e0b, type: 2}
+  - {fileID: 11400000, guid: b50ac645208245a4881b445d81176419, type: 2}
+  - {fileID: 11400000, guid: 1938134957a68494183c92cfa7836ae0, type: 2}
+  - {fileID: 11400000, guid: 42a704bb716be2743bb54b633f6cc5a8, type: 2}
   m_Boss: {fileID: 0}

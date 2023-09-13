@@ -25,6 +25,7 @@ public class HeroManifest : BaseManifestData
         return requestedHero;
     }
 
+#if UNITY_EDITOR
     public override void GatherData()
     {
         base.GatherData();
@@ -35,4 +36,5 @@ public class HeroManifest : BaseManifestData
             m_AllHeroes = m_AllHeroes.OrderBy(heroData => (int)heroData.Hero).ToList();
         }
     }
+#endif
 }

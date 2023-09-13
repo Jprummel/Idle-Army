@@ -23,6 +23,7 @@ public class EnemyManifest : BaseManifestData
         return m_AllBosses[bossIndex];
     }
 
+#if UNITY_EDITOR
     public override void GatherData()
     {
         base.GatherData();
@@ -38,4 +39,5 @@ public class EnemyManifest : BaseManifestData
             m_AllBosses.Add(boss);
         }
     }
+#endif
 }

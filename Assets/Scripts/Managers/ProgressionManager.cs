@@ -67,7 +67,7 @@ public class ProgressionManager : ManagerBase, ISaveable
         }
 
         GameEvents.ProgressLevel();
-        GameEvents.ProgressStage();
+        //GameEvents.ProgressStage();
         UIEvents.ProgressLevel();
         UIEvents.ProgressStage();
     }

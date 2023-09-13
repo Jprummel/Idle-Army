@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using ES3Internal;
 using UnityEngine.SceneManagement;
+#if UNITY_EDITOR
+using UnityEditor;
 using UnityEditor.SceneManagement;
+#endif
 
 namespace ES3Editor
 {
